@@ -81,6 +81,9 @@ Faster RCNN R-FCN SSD
 
 
 ## Identifying issues with detecting small objects
+
+ 这一节，首先概述 MS COCO 数据和实验中用到的目标检测方法，然后讨论 MS COCO 数据集和使用 anchor 类方法的问题。它们都是增加小目标检测难度的原因 
+
 ### MS COCO
 ### Mask R-CNN
 ### Small object detection by Mask R-CNN on MS COCO
