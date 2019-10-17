@@ -88,7 +88,7 @@ Faster RCNN R-FCN SSD
 
 我们使用 MS COCO 检测数据集进行了实验，MS COCO 2017 检测数据集包含 118287 张训练图片、5000 张验证图片和 40670 张测试图片。包含了 80 个类别的 860,001 和 36,781 个目标用 ground-truth 边界框和实例掩码进行了标注。
 
-　　在 MS COCO 检测任务中,主要的评价指标是 AP,AP 是 precision/recall 曲线的一种定量表达。一个 TP,不仅要分类正确还要回归足够好，比如检测框和 GT 的 交并比 (IoU) 要大于0.5。The AP scores are averaged across the 80 categories and ten IoU thresholds, evenly distributed between 0.5 and 0.95. 指标还包括在不同对象比例下测量的测量的AP。 本文中, 我们首要关注点是小目标的 AP。
+　　在 MS COCO 检测任务中,主要的评价指标是 AP,AP 是 precision/recall 曲线的一种定量表达。一个 TP,不仅要分类正确还要回归足够好，比如检测框和 GT 的 交并比 (IoU) 要大于0.5。AP分数是80个类别和10个IoU阈值的平均值，平均分布在0.5和0.95之间。 指标还包括在不同对象比例下测量的测量的AP。 本文中, 我们首要关注的是小目标的 AP。
 
 ### Mask R-CNN
 ### Small object detection by Mask R-CNN on MS COCO
