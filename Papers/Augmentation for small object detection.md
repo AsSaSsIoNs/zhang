@@ -117,7 +117,11 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 
 ## Oversampling and Augmentation
 
+ 针对上文中提出的 MS COCO 数据的问题进行改进以提升小目标的性能。
 
+具体的，我们对包含小目标的图像进行 oversample，并对小目标进行增强，以鼓励模型更多地关注小目标。
+
+虽然我们只使用Mask R-CNN来实验，但是这些改进可以推广到其他目标检测网络或框架里，因为oversampling和 augmentation 都作为数据预处理来进行的。 
 
 ## Experimental Setup
 
