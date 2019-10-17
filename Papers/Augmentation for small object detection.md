@@ -92,7 +92,7 @@ Faster RCNN R-FCN SSD
 
 ### Mask R-CNN
 
-本文实验利用 Detectron[19] 框架下的 Mask R-CNN 实现，使用 ResNet-50 backbone 和 [20] 中提出的线性缩放规则来设置学习超参数。我们设置初始学习率 0.01，利用分布式 GPUs 训练迭代 36k iterations。对于优化，我们使用随机梯度下降法 with the momentum set to 0.9 and weight decay with the coefficient set to 0.0001. 训练过程中学习率分别在 24K 和 32K 次时按照 0.1 的比例降低两次。其他参数设置参考 Detectron - Mask R-CNN+FPN+ResNet-50 下的设置。
+本实验利用 Detectron[19] 框架下的 Mask R-CNN 实现，使用 ResNet-50 backbone 和 [20] 中提出的线性缩放规则来设置学习超参数。我们设置初始学习率 0.01，利用分布式 GPUs 训练迭代 36k次。优化方面，我们使用动量设置为0.9的随机梯度下降和系数设置为0.0001的权重衰减。 训练过程中学习率分别在 24K 和 32K 次时按照 0.1 的比例降低两次。其他参数设置参考 Detectron - Mask R-CNN+FPN+ResNet-50 下的设置。
 
 在我们的调研中发现 region proposal 阶段特别重要。我们采用 FPN 来生成 object proposals。它定义了 5 个尺度(322322; 642642; 12821282; 25622562; 51225122) 3 个宽高比(1; 0:5; 2) 一共 15 个anchor 来构成 object proposals. 与 GT 的 IoU≥0.7IoU≥0.7 的 anchor 或者 GT 能匹配到的最大 IoU 的 anchor 作为正样本。
 
