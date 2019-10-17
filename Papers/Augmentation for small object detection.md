@@ -68,12 +68,25 @@ MS COCO 目标检测大赛的第一名解决方案从2015年的 mAP=0.373 提升
 >通过复制粘贴小对象进行人工增强的示例
 >正如在这些示例中所观察到的，粘贴同一图像很有可能会正确显示小对象的周围环境
 
-
-## Identifying issues with detecting small objects
 ##  Related Work
 
-## Result and Analysis
 
+
+## Identifying issues with detecting small objects
+### MS COCO
+### Mask R-CNN
+### Small object detection by Mask R-CNN on MS COCO
+## Oversampling and Augmentation
+## Experimental Setup
+### Oversampling
+### Augmentation
+### Copy-Pasting Strategies
+### Pasting Algorithms
+## Result and Analysis
+### Oversampling
+### Augmentation
+### Copy-Pasting strategies
+### Pasting Algorithms
 ## Conclusion
 
 ## References
