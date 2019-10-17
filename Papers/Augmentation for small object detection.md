@@ -84,19 +84,19 @@ Faster RCNN R-FCN SSD
 
  这一节，首先概述 MS COCO 数据和实验中用到的目标检测方法，然后讨论 MS COCO 数据集和使用 anchor 类方法的问题。它们都是增加小目标检测难度的原因 
 
-### MS COCO
+* MS COCO
 
 我们使用 MS COCO 检测数据集进行了实验，MS COCO 2017 检测数据集包含 118287 张训练图片、5000 张验证图片和 40670 张测试图片。包含了 80 个类别的 860,001 和 36,781 个目标用 ground-truth 边界框和实例掩码进行了标注。
 
 　　在 MS COCO 检测任务中,主要的评价指标是平均精度(AP),AP 是 precision/recall 曲线的一种定量表达。一个 TP,不仅要分类正确还要回归足够好，比如检测框和 GT 的 交并比 (IoU) 要大于0.5。AP分数是80个类别和10个IoU阈值的平均值，平均分布在0.5和0.95之间。 指标还包括在不同对象比例下测量的测量的AP。 本文中, 我们首要关注的是小目标的 AP。
 
-### Mask R-CNN
+* Mask R-CNN
 
 本实验利用 Detectron[19] 框架下的 Mask R-CNN 实现，使用 ResNet-50 backbone 和 [20] 中提出的线性缩放规则来设置学习超参数。我们设置初始学习率 0.01，利用分布式 GPUs 训练迭代 36k次。优化方面，我们使用动量设置为0.9的随机梯度下降和系数设置为0.0001的权重衰减。 训练过程中学习率分别在 24K 和 32K 次时按照 0.1 的比例降低两次。其他参数设置参考 Detectron - Mask R-CNN+FPN+ResNet-50 下的设置。
 
 在我们的调研中发现候选区域阶段特别重要。我们采用 FPN 来生成 object proposals。它定义了 5 个尺度(32<sup>2</sup>\64<sup>2</sup>\128<sup>2</sup>\256<sup>2</sup>\512<sup>2</sup>) 3 个宽高比(1\0:5\2) 一共 15 个anchor 来构成 object proposals.与GT的IoU≥0.7的anchor或者 GT 能匹配到的最大IoU的anchor作为正样本
 
-### Small object detection by Mask R-CNN on MS COCO
+* Small object detection by Mask R-CNN on MS COCO
 
  　在 MS COCO 中，训练集中出现的所有目标中有 41.43%是小的，而只有 34.4%和 24.2% 分别是中型和大型目标。另一方面，只有约一半的训练图片包含任何小物体，而 70.07%和 82.28%的训练图像分别包含中型和大型物体。这说明了小对象检测问题背后的第一个问题：使用小对象的示例较少。 
 >![1571298913967](1571298913967.png)
@@ -117,10 +117,15 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 
 ## Oversampling and Augmentation
 
- 针对上文中提出的 MS COCO 数据的问题进行改进以提升小目标的性能。
+* 针对上文中提出的 MS COCO 数据的问题进行改进以提升小目标的性能。
+  具体的，我们对包含小目标的图像进行 oversample，并对小目标进行augmentation，以鼓励模型更多地关注小目标。
+  这些改进可以推广到其他目标检测网络或框架里，因为oversampling和augmentation都作为数据预处理来进行的。 
+* Oversampling
 
-具体的，我们对包含小目标的图像进行 oversample，并对小目标进行augmentation，以鼓励模型更多地关注小目标。
-这些改进可以推广到其他目标检测网络或框架里，因为oversampling和augmentation都作为数据预处理来进行的。 
+
+* Augmentation
+
+
 
 ## Experimental Setup
 
