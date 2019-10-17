@@ -169,7 +169,7 @@ oversampling ratio 分别设置为 2, 3, 4。为了提高实验效率，我们�
 
 ### Augmentation
 
-Table4 展示了我们使用不同的组合提出的 augmentation and oversampling 策略的结果
+Table4 展示了我们使用不同的组合提出的 augmentation and oversampling 策略的结果![1571301202359](1571301202359.png)
 
 当我们用包含更多小目标的副本(第二行)替换每个包含小目标的图像时，性能显著下降。而单我们将这些 augmented 图像复制两份，小目标的分割和检测性能得到了恢复，尽管总体性能仍然比 baseline 差。当我们在 augmented 验证集上评估时，小目标的性能提升了 38%38%(mAP=0.161)，表明训练后的模型有效地 overfit 到“粘贴”的小对象上，但不一定适合于原始的小对象。我们猜测这是由于人工复制的不完美性导致的，例如粘贴的目标 mask 和 background 亮度差，这些相对容易被神经网络发现。采用 augmentation and oversampling 相结合的方法，取得了较好的效果，augmentation 的概率为 0.5，这使得原始目标和 augmented 的目标比例为 2:1。这种设置比单纯的 oversampling 效果更好，验证了所提出的粘贴小对象策略的有效性。 
 
