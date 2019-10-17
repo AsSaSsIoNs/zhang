@@ -181,7 +181,9 @@ Table4 展示了我们使用不同的组合提出的 augmentation and oversampli
 
 ### Copy-Pasting strategies
 
-见Table5，我们看到复制粘贴单个小目标可以提升模型检测小目标的能力，然而，代价是大图片的性能下降了一点。但这样的结果比 2×2× oversampling 要好。 
+见Table5，我们看到复制粘贴单个小目标可以提升模型检测小目标的能力，然而，代价是大图片的性能下降了一点。但这样的结果比 2×2× oversampling 要好。
+>![1571301456592](1571301456592.png)
+>
 
 ### Pasting Algorithms
 ## Conclusion
