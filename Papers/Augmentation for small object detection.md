@@ -137,6 +137,10 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 ## Experimental Setup
 
 ### Oversampling
+
+在第一组实验中，我们研究了包含小目标图像的 oversampling 的效果
+oversampling ratio 分别设置为 2, 3, 4。为了提高实验效率，我们实际上并没有随机 oversampling，而是创建了直接创建了多个图像副本（图像列表里重复就好了） 
+
 ### Augmentation
 ### Copy-Pasting Strategies
 ### Pasting Algorithms
