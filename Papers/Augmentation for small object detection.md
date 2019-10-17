@@ -153,8 +153,8 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 ### Augmentation
 
 * 在第二组实验中，研究了 augmentation 的效果
-将包含小目标的图像里的所有小目标复制和粘贴一次
-还实验了 oversampling 和 augmentation 之间的相互作用
+* 将包含小目标的图像里的所有小目标复制和粘贴一次
+* 还实验了 oversampling 和 augmentation 之间的相互作用
 
 三种设置
 
@@ -163,6 +163,7 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 3. 第三种设置，保留original图像和augmented图像，这相当于对包含小目标的图像进行 2 倍的 oversampling，同时复制副本里包含更多的小目标
 
 ### Copy-Pasting Strategies
+
 复制粘贴小目标有很多种方法，考虑了三种不同的策略
 * 在图像中选择一个小目标，然后在随机位置复制粘贴多次
 * 选择许多小目标，并在任意位置复制粘贴它们一次
@@ -173,6 +174,7 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 当粘贴一个小目标时，有两件事需要考虑
 需要确定粘贴的对象是否与任何其他对象重叠。虽然选择不引入任何重叠，但通过实验验证了这是否是一个好的策略
 需要选择是否以平滑处理粘贴对象的边缘。通过实验对比了使用不同大小的滤波器进行边缘高斯模糊对性能的影响。
+
 ## Result and Analysis
 ### Oversampling
 在训练过程中更频繁地采样小目标图像，对于小目标的分割和检测 AP 都有所提升，见Table3
