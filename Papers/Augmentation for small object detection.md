@@ -91,6 +91,11 @@ Faster RCNN R-FCN SSD
 　　在 MS COCO 检测任务中,主要的评价指标是平均精度(AP),AP 是 precision/recall 曲线的一种定量表达。一个 TP,不仅要分类正确还要回归足够好，比如检测框和 GT 的 交并比 (IoU) 要大于0.5。AP分数是80个类别和10个IoU阈值的平均值，平均分布在0.5和0.95之间。 指标还包括在不同对象比例下测量的测量的AP。 本文中, 我们首要关注的是小目标的 AP。
 
 ### Mask R-CNN
+
+本文实验利用 Detectron[19] 框架下的 Mask R-CNN 实现，使用 ResNet-50 backbone 和 [20] 中提出的线性缩放规则来设置学习超参数。我们设置初始学习率 0.01，利用分布式 GPUs 训练迭代 36k iterations。对于优化，我们使用随机梯度下降法 with the momentum set to 0.9 and weight decay with the coefficient set to 0.0001. 训练过程中学习率分别在 24K 和 32K 次时按照 0.1 的比例降低两次。其他参数设置参考 Detectron - Mask R-CNN+FPN+ResNet-50 下的设置。
+
+在我们的调研中发现 region proposal 阶段特别重要。我们采用 FPN 来生成 object proposals。它定义了 5 个尺度(322322; 642642; 12821282; 25622562; 51225122) 3 个宽高比(1; 0:5; 2) 一共 15 个anchor 来构成 object proposals. 与 GT 的 IoU≥0.7IoU≥0.7 的 anchor 或者 GT 能匹配到的最大 IoU 的 anchor 作为正样本。
+
 ### Small object detection by Mask R-CNN on MS COCO
 ## Oversampling and Augmentation
 ## Experimental Setup
