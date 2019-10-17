@@ -180,10 +180,21 @@ Table4 展示了我们使用不同的组合提出的 augmentation and oversampli
 *   采用 augmentation and oversampling 相结合的方法，取得了较好的效果，augmentation 的概率为 0.5，这使得原始目标和 augmented 的目标比例为 2:1。这种设置比单纯的 oversampling 效果更好，验证了所提出的粘贴小对象策略的有效性。 
 
 ### Copy-Pasting strategies
+#### Copy-pasting of a single object
 
 见Table5，我们看到复制粘贴单个小目标可以提升模型检测小目标的能力，然而，代价是大图片的性能下降了一点。但这样的结果比 2×2× oversampling 要好。
 >![1571301456592](1571301456592.png)
->
+>复制粘贴单个对象
+>通常最好只复制粘贴一次单个对象几次，尤其是当要获得较高的整体性能时
+
+#### Copy-pasting of multiple objects
+
+
+
+#### Copy-pasting of all small objects
+
+
+
 
 ### Pasting Algorithms
 ## Conclusion
