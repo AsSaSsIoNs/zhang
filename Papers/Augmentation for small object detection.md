@@ -69,7 +69,7 @@ MS COCO 目标检测大赛的第一名解决方案从2015年的 mAP=0.373 提升
 >正如在这些示例中所观察到的，粘贴同一图像很有可能会正确显示小对象的周围环境
 
 
-
+## Identifying issues with detecting small objects
 ##  Related Work
 
 ## Result and Analysis
