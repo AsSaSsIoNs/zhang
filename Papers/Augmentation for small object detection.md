@@ -112,10 +112,15 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 
 在Figure 5 中，我们可视化了这个现象。这些观察表明，小目标对计算 region proposal 损失的贡献要小得多，这使得整个网络偏向于大中型目标.
 
-![1571299378615](1571299378615.png)
+>![1571299378615](1571299378615.png)
+>在Mask-RCNN网络中训练期间，已将锚定明确分配给（IoU> 0.5）到地面真实对象。 即使IoU低于阈值，也必须强制将至少一个锚点积极地分配给每个地面真实对象。 否则，如前两个图像一样，大多数小物体将被遗漏并且永远不会被训练。 其他图像正在验证我们正在解决的问题。 大对象比小对象具有更多的正分配锚。
 
 ## Oversampling and Augmentation
+
+
+
 ## Experimental Setup
+
 ### Oversampling
 ### Augmentation
 ### Copy-Pasting Strategies
