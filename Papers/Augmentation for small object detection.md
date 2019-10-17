@@ -118,12 +118,17 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 ## Oversampling and Augmentation
 
 * 针对上文中提出的 MS COCO 数据的问题进行改进以提升小目标的性能。
-  具体的，我们对包含小目标的图像进行 oversample，并对小目标进行augmentation，以鼓励模型更多地关注小目标。
-  这些改进可以推广到其他目标检测网络或框架里，因为oversampling和augmentation都作为数据预处理来进行的。 
+  * 具体的，我们对包含小目标的图像进行 oversample，并对小目标进行augmentation，以鼓励模型更多地关注小目标。
+  * 这些改进可以推广到其他目标检测网络或框架里，因为oversampling和augmentation都作为数据预处理来进行的。 
 * Oversampling
-
-
+  * 我们通过在训练阶段对包含小目标的图像进行oversampleing来解决包含小目标的图像相对较少的问题 。简单直接地解决MS COCO数据集的问题，以提升小目标的检测性能
+  * 在实验中，我们通过改变 oversampleing rate,来研究其对小、中、大目标的影响。
 * Augmentation
+  * 在 oversampleing 的基础上，我们还引入了针对小目标的数据集的 augmentation
+  * MS COCO 数据集里实例分割中的 mask 使得我们可以将任何标注目标贴到图像中的任意位置。而通过增加每个图像中小目标的数量，匹配的 anchor 的数量也会随之增加，这进而提升了小目标在训练阶段对 loss 计算的贡献。
+  * 将目标粘贴到新位置之前，我们对其进行随机变换。目标缩放范围为±20%，旋转范围为±15∘。复制时我们只考虑无遮挡的目标，防止图像太不真实。粘贴时确保新粘贴的目标不会与任何现有的对象发生重叠，并且距离图像边界至少有 5 个像素。
+* Figure 4，我们用图形说明了所提出的 augmentation 策略以及如何在训练中增加匹配 anchor 的数量，更好地检测小目标。![1571300104729](1571300104729.png)
+
 
 
 
