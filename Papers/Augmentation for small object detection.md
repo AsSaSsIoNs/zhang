@@ -72,7 +72,7 @@ MS COCO 目标检测大赛的第一名解决方案从2015年的 mAP=0.373 提升
 
 ### Object Detection
 
-
+Faster RCNN R-FCN SSD
 
 ### Instance Segmentation
 
