@@ -94,9 +94,12 @@ Faster RCNN R-FCN SSD
 
 本实验利用 Detectron[19] 框架下的 Mask R-CNN 实现，使用 ResNet-50 backbone 和 [20] 中提出的线性缩放规则来设置学习超参数。我们设置初始学习率 0.01，利用分布式 GPUs 训练迭代 36k次。优化方面，我们使用动量设置为0.9的随机梯度下降和系数设置为0.0001的权重衰减。 训练过程中学习率分别在 24K 和 32K 次时按照 0.1 的比例降低两次。其他参数设置参考 Detectron - Mask R-CNN+FPN+ResNet-50 下的设置。
 
-在我们的调研中发现候选区域阶段特别重要。我们采用 FPN 来生成 object proposals。它定义了 5 个尺度(32; 64; 128; 256; 512) 3 个宽高比(1\0:5\2) 一共 15 个anchor 来构成 object proposals.与GT的IoU≥0.7的anchor或者 GT 能匹配到的最大IoU的anchor作为正样本
+在我们的调研中发现候选区域阶段特别重要。我们采用 FPN 来生成 object proposals。它定义了 5 个尺度(32<sup>2</sup>\64<sup>2</sup>\128<sup>2</sup>\256<sup>2</sup>\512<sup>2</sup>) 3 个宽高比(1\0:5\2) 一共 15 个anchor 来构成 object proposals.与GT的IoU≥0.7的anchor或者 GT 能匹配到的最大IoU的anchor作为正样本
 
 ### Small object detection by Mask R-CNN on MS COCO
+
+ 　在 MS COCO 中，训练集中出现的所有目标中有 41.43%41.43% 是小的，而只有 34.4%34.4% 和 24.2%24.2% 分别是中型和大型目标。另一方面，只有约一半的训练图片包含任何小物体，而 70.07%70.07% 和 82.28%82.28% 的训练图像分别包含中型和大型物体。这说明了小对象检测问题背后的第一个问题：使用小对象的示例较少。 
+
 ## Oversampling and Augmentation
 ## Experimental Setup
 ### Oversampling
