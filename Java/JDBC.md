@@ -35,8 +35,8 @@
 ---
 ## DriverManager
 
-* 注册驱动
-* ```java
+```java
+//注册驱动
 static {
         try {
             DriverManager.registerDriver(new Driver());
@@ -44,9 +44,8 @@ static {
             throw new RuntimeException("Can't register driver!");
         }
     }
-  ```
-* 观察`mysql-connector-java-8.0.11\com\mysql\cj\jdbc\Driver.java`的源码就会发现，每次`DriverManager`强制运行`registerDriver`方法
-
+//观察`mysql-connector-java-8.0.11\com\mysql\cj\jdbc\Driver.java`的源码就会发现，每次`DriverManager`强制运行`registerDriver`方法
+```
 
 * 获取mysql连接
 * ```java
