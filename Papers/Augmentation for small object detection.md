@@ -163,7 +163,7 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 
 1. 将小目标贴到每张包含小目标的图像中
 2. 复制这些augmented的图像来模拟oversampling
-3. 保留original图像和augmented图像，这相当于对包含小目标的图像进行 2 倍的 oversampling，同时复制副本里包含更多的小目标
+3. 第三种设置，保留original图像和augmented图像，这相当于对包含小目标的图像进行 2 倍的 oversampling，同时复制副本里包含更多的小目标
 
 ### Copy-Pasting Strategies
 
@@ -173,21 +173,16 @@ AverageMaxIoU指标所示，即使是小对象的最佳匹配 anchor 通常也�
 * 将每个图像中所有的小目标在任意位置复制粘贴多次
 
 在所有的情况下，我们都使用上面的第三种 augmentation 设置，也就是说，我们保留原始图像和它的 augmented的副本一共四份数据
-
 ### Pasting Algorithms
-
 当粘贴一个小目标时，有两件事需要考虑
 需要确定粘贴的对象是否与任何其他对象重叠。虽然选择不引入任何重叠，但通过实验验证了这是否是一个好的策略
 需要选择是否以平滑处理粘贴对象的边缘。通过实验对比了使用不同大小的滤波器进行边缘高斯模糊对性能的影响。
 
 ## Result and Analysis
-
 ### Oversampling
-
 在训练过程中更频繁地采样小目标图像，对于小目标的分割和检测 AP 都有所提升，见Table3
 >![1571301001055](1571301001055.png)
 >**以不同的过采样率进行实验**
->
 >* 无论用于检测小物体的比率如何，过采样都会有所帮助。
 >* 该比率使我们可以在大小物体之间进行权衡
 
@@ -206,7 +201,6 @@ Table4 展示了我们使用不同的组合提出的 augmentation and oversampli
 *   采用 augmentation and oversampling 相结合的方法，取得了较好的效果，augmentation 的概率为 0.5，这使得原始目标和 augmented 的目标比例为 2:1。这种设置比单纯的 oversampling 效果更好，验证了所提出的粘贴小对象策略的有效性。 
 
 ### Copy-Pasting strategies
-
 * Copy-pasting of a single object
 >Table5，我们看到复制粘贴单个小目标可以提升模型检测小目标的能力
 >代价是大图片的性能下降了一点。但这样的结果比 2×2× oversampling 要好
