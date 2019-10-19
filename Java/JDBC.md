@@ -36,20 +36,20 @@
 ## DriverManager
 
 * ```java
-//注册驱动
-static {
+  //注册驱动
+  static {
         try {
             DriverManager.registerDriver(new Driver());
         } catch (SQLException var1) {
             throw new RuntimeException("Can't register driver!");
         }
     }
-//观察`mysql-connector-java-8.0.11\com\mysql\cj\jdbc\Driver.java`的源码就会发现，每次`DriverManager`强制运行`registerDriver`方法
-```
+  //观察`mysql-connector-java-8.0.11\com\mysql\cj\jdbc\Driver.java`的源码就会发现，每次`DriverManager`强制运行`registerDriver`方法
+  ```
 
-* 获取mysql连接
 * ```java
-  //如果要连接本机的3306时，可以省略不写
+// 获取mysql连接
+//如果要连接本机的3306时，可以省略不写
   Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
   //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC", "root", "");
   ```
