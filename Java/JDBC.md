@@ -35,7 +35,7 @@
 ---
 ## DriverManager
 
-```java
+* ```java
 //注册驱动
 static {
         try {
