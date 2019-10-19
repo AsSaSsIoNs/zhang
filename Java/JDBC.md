@@ -52,5 +52,5 @@
 	//如果要连接本机的3306时，可以省略不写
   Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
   //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC", "root", "");
+  //以上两个的执行效果一样
   ```
-* 以上两个的执行效果一样
