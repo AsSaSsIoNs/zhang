@@ -48,8 +48,8 @@
   ```
 
 * ```java
-// 获取mysql连接
-//如果要连接本机的3306时，可以省略不写
+	// 获取mysql连接
+	//如果要连接本机的3306时，可以省略不写
   Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
   //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC", "root", "");
   ```
