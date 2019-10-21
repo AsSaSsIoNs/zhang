@@ -54,3 +54,7 @@
   //Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC", "root", "");
   //以上两个的执行效果一样
   ```
+## ResultSet
+
+*   使用ResultSet输出数据库中的结果
+*   
