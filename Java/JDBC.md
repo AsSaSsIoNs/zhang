@@ -250,7 +250,29 @@
 
 *   在写程序时，遇到了一个问题，下面是出问题的代码和结果
 
-*   
+*   ```java
+    		Employee e = new Employee();
+    		while (rs.next()){
+                int id = rs.getInt("id");
+                String ename = rs.getString("ename");
+                int job_id = rs.getInt("job_id");
+                int mgr = rs.getInt("mgr");
+                Date joindate = rs.getDate("joindate");
+                int salary = rs.getInt("salary");
+                e.setId(id);
+                e.setEname(ename);
+                e.setJob_id(job_id);
+                e.setMgr(mgr);
+                e.setJoindate(joindate);
+                e.setSalary(salary);
+                list.add(e);
+            }
+            for (Employee each : list) {
+                System.out.println(each);
+            }
+    ```
+
+    
 
 
 
