@@ -65,22 +65,25 @@
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             rs.next();
-            System.out.println(rs.getString("loc"));
+        	//游标向下移动一行
+            System.out.println(rs.getString("loc"));//找列名字为 loc 的列
+        	//输出 "北京"
             stmt.close();
             conn.close();
-        }
+    }
     ```
-
+    
 *   要查询的表是这样的
 
-    *   | id   | dname  | loc  |
-        | ---- | ------ | ---- |
-        |      | 教研部 | 北京 |
-        |      | 学工部 | 上海 |
-        |      | 销售部 | 广州 |
-        |      | 财务部 | 深圳 |
-
+*   | id   | dname  | loc  |
+    | ---- | ------ | ---- |
+    | 10   | 教研部 | 北京 |
+    | 20   | 学工部 | 上海 |
+    | 30   | 销售部 | 广州 |
+    | 40   | 财务部 | 深圳 |
     
+    
+
 
 
 
