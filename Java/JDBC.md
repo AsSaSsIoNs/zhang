@@ -97,6 +97,11 @@
           stmt.close();
           conn.close();
       }
+  /*	结果为
+  id=10	dname=教研部	loc=北京	
+  id=20	dname=学工部	loc=上海	
+  id=30	dname=销售部	loc=广州	
+  id=40	dname=财务部	loc=深圳	*/
   ```
   
     
