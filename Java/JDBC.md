@@ -84,8 +84,20 @@
     
 * 如果要输出所有结果则使用下面代码
   
-  ```
-  
+  ```java
+  public static void main(String[] args) throws ClassNotFoundException, SQLException {
+          Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
+          String sql = "select * from dept";
+          Statement stmt = conn.createStatement();
+          ResultSet rs = stmt.executeQuery(sql);
+          while(rs.next()){
+              System.out.print("id=" + rs.getInt("id") + "\t");
+              System.out.print("dname=" + rs.getString("dname") + "\t");
+              System.out.print("loc=" + rs.getString("loc") + "\t\n");
+          }
+          stmt.close();
+          conn.close();
+      }
   ```
   
     
