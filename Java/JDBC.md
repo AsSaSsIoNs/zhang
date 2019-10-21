@@ -64,8 +64,7 @@
             String sql = "select * from dept";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            rs.next();
-        	//游标向下移动一行
+            rs.next();//游标初始是在列标题的那一行，所以要向下移动一行
             System.out.println(rs.getString("loc"));//找列名字为 loc 的列
         	//输出 "北京"
             stmt.close();
