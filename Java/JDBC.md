@@ -58,14 +58,11 @@
 
 *   使用ResultSet输出数据库中的结果
 
-*   ```
+*   ```java
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
             Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
-    //      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC", "root", "");
             String sql = "select * from dept";
             Statement stmt = conn.createStatement();
-    //        boolean count = stmt.execute(sql);
-    //        System.out.println(count);
             ResultSet rs = stmt.executeQuery(sql);
             rs.next();
             System.out.println(rs.getString("loc"));
@@ -74,4 +71,10 @@
         }
     ```
 
-    
+*   要查询的表是这样的
+
+*   |id|dname|loc
+*   |
+
+
+
