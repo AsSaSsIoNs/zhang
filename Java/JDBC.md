@@ -185,8 +185,53 @@
     }
     ```
 
-    ```
+    ```java
+    //.com.Login.GetEmployee.java
+    package com.Login;
     
+    import java.sql.*;
+    import java.util.ArrayList;
+    import java.util.Date;
+    import java.util.List;
+    
+    public class GetEmployee {
+    
+    
+        public List<Employee> getAll() throws ClassNotFoundException, SQLException {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
+            Statement stmt = conn.createStatement();
+            String sql = "select * from emp";
+            ResultSet rs = stmt.executeQuery(sql);
+            List<Employee> list = new ArrayList<Employee>();
+    //        Employee e = null;
+            Employee e = new Employee();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String ename = rs.getString("ename");
+                int job_id = rs.getInt("job_id");
+                int mgr = rs.getInt("mgr");
+                Date joindate = rs.getDate("joindate");
+                int salary = rs.getInt("salary");
+                e = new Employee();
+                e.setId(id);
+                e.setEname(ename);
+                e.setJob_id(job_id);
+                e.setMgr(mgr);
+                e.setJoindate(joindate);
+                e.setSalary(salary);
+    //            System.out.println(e);
+                list.add(e);
+    //            System.out.println(list);
+            }
+            for (Employee each : list) {
+                System.out.println(each);
+            }
+            stmt.close();
+            conn.close();
+            return list;
+        }
+    }
     ```
 
     
