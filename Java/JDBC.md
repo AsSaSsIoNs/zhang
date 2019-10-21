@@ -204,8 +204,7 @@
             String sql = "select * from emp";
             ResultSet rs = stmt.executeQuery(sql);
             List<Employee> list = new ArrayList<Employee>();
-    //        Employee e = null;
-            Employee e = new Employee();
+            Employee e = null;
             while (rs.next()){
                 int id = rs.getInt("id");
                 String ename = rs.getString("ename");
@@ -220,9 +219,7 @@
                 e.setMgr(mgr);
                 e.setJoindate(joindate);
                 e.setSalary(salary);
-    //            System.out.println(e);
                 list.add(e);
-    //            System.out.println(list);
             }
             for (Employee each : list) {
                 System.out.println(each);
@@ -234,7 +231,21 @@
     }
     ```
 
+    ```java
+    //.com.Login.Main.java
+    package com.Login;
     
+    import java.sql.SQLException;
+    
+    public class Main {
+        public static void main(String[] args) throws SQLException, ClassNotFoundException {
+            new GetEmployee().getAll();
+        }
+    }
+    ```
+
+*   `test`数据库的`emp`表![1571641939391](1571641939391.png)
+*   程序输出
 
 
 
