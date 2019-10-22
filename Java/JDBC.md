@@ -350,7 +350,33 @@
     | 2    | lisi     | 234      |
     | 3    | wangwu   | 345      |
 
-*   
+*   ```java
+    public class Main {
+        public static void main(String[] args) throws SQLException, ClassNotFoundException {
+            Scanner scan_username = new Scanner(System.in);
+            System.out.println("Please Input the Username:");
+            String username = scan_username.nextLine();
+            Scanner scan_password = new Scanner(System.in);
+            System.out.println("Please Input the Username:");
+            String password = scan_password.nextLine();
+            System.out.println(new Main().login(username, password));//返回登陆成功与否
+        }
+        public boolean login(String username, String password) throws SQLException {
+            if(username == null || password == null){
+                return false;
+            }//先判断再建立
+            Connection conn = Utils.getConnection();//使用了自定义的连接类，非常方便
+            Statement stmt = conn.createStatement();
+            String sql = "select * from user where name=\'" + username + "\'and password=\'" + password + "\'";//查询到了就返回为true
+            ResultSet rs = stmt.executeQuery(sql);
+            boolean result = rs.next();
+            Utils.close(rs, stmt, conn);//自定义连接类
+            return result;
+        }
+    }
+    ```
+
+    
 
    
 
