@@ -277,7 +277,8 @@
 
 ### 使用自定的类简化连接操作
 
-
+*   新建一个`utils`文件夹，包括`Utils.java`和`jdbc.properties`两个文件
+*   
 
    
 
