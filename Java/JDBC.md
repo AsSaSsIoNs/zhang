@@ -421,6 +421,30 @@
 
 *   先来看看没有事务会发生什么
 
+    ```java
+    public static void main(String[] args) throws SQLException {
+            Connection conn = Utils.getConnection();
+            conn.setAutoCommit(false);
+            String sql1 = "update account set balance=balance-? where id=?";
+            String sql2 = "update account set balance=balance+? where id=?";
+            PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+            pstmt1.setInt(1, 500);
+            pstmt1.setInt(2, 1);
+            pstmt2.setInt(1, 500);
+            pstmt2.setInt(2, 2);
+            pstmt1.executeUpdate();
+            int i = 1 / 0;//人为地制造了一个Exception，导致接下来的语句不能正常执行
+            pstmt2.executeUpdate();
+            conn.commit();
+            pstmt1.close();
+            pstmt2.close();
+            conn.close();
+        }
+    ```
+
+*   执行完后，表的内容是
+
 
 
 
