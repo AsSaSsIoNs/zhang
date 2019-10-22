@@ -395,18 +395,18 @@
                 return false;
             }
             Connection conn = Utils.getConnection();
-            String sql = "select * from user where name=? and password=?";//问号y
+            String sql = "select * from user where name=? and password=?";//问号也就是占位符，值会在下面设置
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.setString(2, password);//这两行设置占位符的具体值，1和2表示位置
+            ResultSet rs = pstmt.executeQuery();//这个executeQuery方法不要接收原来的sql，否则报错
             boolean result = rs.next();
             Utils.close(rs, pstmt, conn);
             return result;
         }
     ```
 
-    
+*   结果![1571722756025](1571722756025.png)
 
 
 
