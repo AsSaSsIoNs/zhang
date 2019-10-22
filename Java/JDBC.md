@@ -424,7 +424,7 @@
     ```java
     public static void main(String[] args) throws SQLException {
             Connection conn = Utils.getConnection();
-            conn.setAutoCommit(false);
+            //conn.setAutoCommit(false); 此处设置了事务的开启与否，默认为关闭事务
             String sql1 = "update account set balance=balance-? where id=?";
             String sql2 = "update account set balance=balance+? where id=?";
             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
