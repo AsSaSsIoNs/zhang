@@ -412,8 +412,7 @@
 
 ## 事务
 
-*   新建一个TestTransaction类用来测试一下事务
-*   
+*   新建一个TestTransaction类用来测试一下事务，使用的表如下
 
 
 
