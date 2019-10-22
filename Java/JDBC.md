@@ -436,14 +436,25 @@
             pstmt1.executeUpdate();
             int i = 1 / 0;//人为地制造了一个Exception，导致接下来的语句不能正常执行
             pstmt2.executeUpdate();
-            conn.commit();
+            //conn.commit();
             pstmt1.close();
             pstmt2.close();
             conn.close();
         }
     ```
 
-*   执行完后，表的内容是
+*   执行完后，控制台会输出红字异常表的内容是
+
+| id   | name  | balance |
+| ---- | ----- | ------- |
+| 1    | zhang | 500     |
+| 2    | li    | 1000    |
+
+只执行了一半，这样是不好的
+* 下面为开启事务
+
+
+​    
 
 
 
