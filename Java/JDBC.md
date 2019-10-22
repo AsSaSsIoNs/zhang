@@ -297,12 +297,12 @@
                 Properties properties = new Properties();
                 String path = Utils.class.getResource("./jdbc.properties").getPath();//使用classloader获取配置文件路径，通过配置文件来设置各种连接参数
                 System.out.println(path);
-                properties.load(new FileReader(path));
+                properties.load(new FileReader(path));//读取配置文件来设置连接
                 url = properties.getProperty("url");
                 user = properties.getProperty("user");
                 password = properties.getProperty("password");
                 driver = properties.getProperty("driver");
-                Class.forName(driver);
+                Class.forName(driver);//注册连接
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -319,7 +319,7 @@
             stmt.close();
             conn.close();
         }
-    }
+    }//有了z
     ```
 
     
