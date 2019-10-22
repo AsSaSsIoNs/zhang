@@ -364,7 +364,7 @@
         public boolean login(String username, String password) throws SQLException {
             if(username == null || password == null){
                 return false;
-            }//先判断再建立
+            }//先判断再决定要不要建立连接
             Connection conn = Utils.getConnection();//使用了自定义的连接类，非常方便
             Statement stmt = conn.createStatement();
             String sql = "select * from user where name=\'" + username + "\'and password=\'" + password + "\'";//查询到了就返回为true
@@ -376,7 +376,7 @@
     }
     ```
 
-    
+    ![1571721604660](1571721604660.png)
 
    
 
