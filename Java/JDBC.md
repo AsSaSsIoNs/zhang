@@ -308,9 +308,7 @@
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-    
         }
-    
         public static Connection getConnection() throws SQLException {
             return DriverManager.getConnection(url, user, password);
         }
@@ -319,10 +317,17 @@
             stmt.close();
             conn.close();
         }
-    }//有了z
+    }//有了这个类就可以避免在读数据库时再去写繁琐的连接操作代码了
+    /*
+    jdbc.properties文件内容如下
+    url=jdbc:mysql:///test?useSSL=false&serverTimezone=UTC
+    user=root
+    password=
+    driver=com.mysql.cj.jdbc.Driver
+    */
     ```
 
-    
+*   与此同时，
 
    
 
