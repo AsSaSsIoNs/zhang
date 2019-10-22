@@ -334,10 +334,11 @@
     //        Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
     //旧的代码，如果要设置其他参数必须修改代码
     //**********************************************************************************************
-            Connection conn = Utils.getConnection();//新代码只需修改配置文件即可，提升了复用性
+    Connection conn = Utils.getConnection();
+    Utils.close(rs, stmt, conn);//新代码只需修改配置文件即可，提升了复用性
     ```
 
-    
+*   运行结果与之前的没有任何区别
 
    
 
