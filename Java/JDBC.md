@@ -385,7 +385,28 @@
 
 * ![1571722164168](1571722164168.png)
 
-* 所以使用PreparedStatement类来
+* 所以使用`PreparedStatement`类来解决这种问题
+
+* 代码修改如下
+
+    ```java
+    public boolean login(String username, String password) throws SQLException {
+            if(username == null || password == null){
+                return false;
+            }
+            Connection conn = Utils.getConnection();
+            String sql = "select * from user where name=? and password=?";//问号y
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            boolean result = rs.next();
+            Utils.close(rs, pstmt, conn);
+            return result;
+        }
+    ```
+
+    
 
 
 
