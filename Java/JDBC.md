@@ -443,7 +443,7 @@
         }
     ```
 
-*   执行完后，控制台会输出红字异常表的内容是
+*   执行完后，控制台会输出红字`Exception in thread "main" java.lang.ArithmeticException: / by zero`，而表的内容为
 
 | id   | name  | balance |
 | ---- | ----- | ------- |
