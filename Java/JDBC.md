@@ -278,7 +278,51 @@
 ### 使用自定的类简化连接操作
 
 *   新建一个`utils`文件夹，包括`Utils.java`和`jdbc.properties`两个文件
-*   
+
+*   ```java
+    package com.Login.utils;
+    
+    import java.io.FileReader;
+    import java.io.IOException;
+    import java.sql.*;
+    import java.util.Properties;
+    
+    public class Utils {
+        private static String url = null;
+        private static String user = null;
+        private static String password = null;
+        private static String driver = null;
+        static {
+            try {
+                Properties properties = new Properties();
+                String path = Utils.class.getResource("./jdbc.properties").getPath();//使用classloader获取配置文件路径，通过配置文件来设置各种连接参数
+                System.out.println(path);
+                properties.load(new FileReader(path));
+                url = properties.getProperty("url");
+                user = properties.getProperty("user");
+                password = properties.getProperty("password");
+                driver = properties.getProperty("driver");
+                Class.forName(driver);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+    
+        }
+    
+        public static Connection getConnection() throws SQLException {
+            return DriverManager.getConnection(url, user, password);
+        }
+        public static void close(ResultSet st, Statement stmt, Connection conn) throws SQLException {
+            st.close();
+            stmt.close();
+            conn.close();
+        }
+    }
+    ```
+
+    
 
    
 
