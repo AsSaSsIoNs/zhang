@@ -327,7 +327,17 @@
     */
     ```
 
-*   与此同时，
+*   与此同时，`GetEmployee.java`文件也进行改动
+
+*   ```java
+    //        Class.forName("com.mysql.cj.jdbc.Driver");
+    //        Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
+    //旧的代码，如果要设置其他参数必须
+    //**********************************************************************************************
+            Connection conn = Utils.getConnection();
+    ```
+
+    
 
    
 
