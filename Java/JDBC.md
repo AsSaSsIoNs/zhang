@@ -332,9 +332,9 @@
 *   ```java
     //        Class.forName("com.mysql.cj.jdbc.Driver");
     //        Connection conn = DriverManager.getConnection("jdbc:mysql:///test?useSSL=false&serverTimezone=UTC", "root", "");
-    //旧的代码，如果要设置其他参数必须
+    //旧的代码，如果要设置其他参数必须修改代码
     //**********************************************************************************************
-            Connection conn = Utils.getConnection();
+            Connection conn = Utils.getConnection();//新代码只需修改配置文件即可，提升了复用性
     ```
 
     
