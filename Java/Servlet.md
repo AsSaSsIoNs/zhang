@@ -504,7 +504,7 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     
 ## 请求转发
 
-### 测试一下
+### 快速体验
 
 *   ```java
     @WebServlet(urlPatterns = "/TestRedirect")
@@ -532,7 +532,9 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
             doGet(req, resp);
         }
     }
+    /*访问localhost:8080/TestRedirect后自动跳转至localhost:8080/TestRedirect2
+控制台输出：
+    Do TestRedirect......
+    Do TestRedirect2......*/
     ```
-
-*   访问`localhost:8080/TestRedirect`后自动跳转至`localhost:8080/TestRedirect2`,并且控制台输出
 
