@@ -251,6 +251,7 @@
 *   在写程序时，遇到了一个问题，下面是出问题的代码和结果
 
 *   ```java
+     
     		Employee e = new Employee();
     		while (rs.next()){
                 int id = rs.getInt("id");
