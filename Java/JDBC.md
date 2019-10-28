@@ -423,6 +423,7 @@
 *   先来看看没有事务会发生什么
 
     ```java
+    
     public static void main(String[] args) throws SQLException {
             Connection conn = Utils.getConnection();
             //conn.setAutoCommit(false); 此处设置了事务的开启与否，默认为关闭事务
@@ -450,6 +451,7 @@
 | ---- | ----- | ------- |
 | 1    | zhang | 500     |
 | 2    | li    | 1000    |
+
 只执行了一半，这样是不好的
 
 * 将上面被注释的两行取消注释，同时将account表恢复原样，运行代码后表的内容为
@@ -458,6 +460,7 @@
 | ---- | ----- | ------- |
 | 1    | zhang | 1000    |
 | 2    | li    | 1000    |
+
 发现出现异常后account表成功地保持了原样
 
 
