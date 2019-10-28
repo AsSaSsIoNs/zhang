@@ -509,19 +509,26 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 *   写两个Servlet
 
 *   ```java
-    //TestRedirect.doGet
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @WebServlet(urlPatterns = "/TestRedirect")
+    public class TestRedirect extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             System.out.println("Do TestRedirect......");
-            resp.setStatus(302);
-            resp.sendRedirect("/TestRedirect2");
+            resp.setStatus(302);//设置状态码为302，表示重定向
+            resp.sendRedirect("/TestRedirect2");//设置重定向的位置
         }
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            doGet(req, resp);
+        }
+    }
+    
     @WebServlet(urlPatterns = "/TestRedirect2")
     public class TestRedirect2 extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             System.out.println("Do TestRedirect2......");
         }
-    
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             doGet(req, resp);
@@ -529,5 +536,5 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     }
     ```
 
-    
+*   访问local
 
