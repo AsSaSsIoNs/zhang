@@ -541,7 +541,8 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 *   相比于`转发`，重定向有这些特点
     
     *   地址栏会发生变化
-    *   可以访问其他网站的资源，比如
+    *   可以访问其他网站的资源，比如在sendRedirect方法中设置参数为百度，访问TestRedirect时就会自动跳转至百度
+    *   是两次请求，故不能使用Request共享请求参数
 
 
 
