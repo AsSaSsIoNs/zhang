@@ -508,14 +508,25 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 
 *   写两个Servlet
 
-*   ```
-    //TestServlet.doGet
+*   ```java
+    //TestRedirect.doGet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             System.out.println("Do TestRedirect......");
             resp.setStatus(302);
             resp.sendRedirect("/TestRedirect2");
         }
-    //
+    @WebServlet(urlPatterns = "/TestRedirect2")
+    public class TestRedirect2 extends HttpServlet {
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            System.out.println("Do TestRedirect2......");
+        }
+    
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            doGet(req, resp);
+        }
+    }
     ```
 
     
