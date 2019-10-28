@@ -538,5 +538,5 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     Do TestRedirect2......*/
     ```
     
-*   相比于`转发`，
+*   相比于`转发`，重定向的地址栏会发生变化，
 
