@@ -252,7 +252,6 @@
 
 *   ```java
      
-		
     	Employee e = new Employee();
     	while (rs.next()){
                 int id = rs.getInt("id");
