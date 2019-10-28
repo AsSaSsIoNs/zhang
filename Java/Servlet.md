@@ -538,5 +538,10 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     Do TestRedirect2......*/
     ```
     
-*   相比于`转发`，重定向的地址栏会发生变化，
+*   相比于`转发`，重定向有这些特点
+    
+    *   地址栏会发生变化
+    *   可以访问其他网站的资源，比如
+
+
 
