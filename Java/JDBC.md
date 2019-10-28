@@ -268,10 +268,10 @@
                 e.setJoindate(joindate);
                 e.setSalary(salary);
                 list.add(e);
-            }
-            for (Employee each : list) {
-                System.out.println(each);
-            }//看起来好像没什么问题，但是为什么列表里面全是一个内容呢
+        }
+        for (Employee each : list) {
+            System.out.println(each);
+        }//看起来好像没什么问题，但是为什么列表里面全是一个内容呢
     ```
 
     ![1571642172760](1571642172760.png)
