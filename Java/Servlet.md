@@ -506,8 +506,6 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 
 ### 测试一下
 
-*   写两个Servlet
-
 *   ```java
     @WebServlet(urlPatterns = "/TestRedirect")
     public class TestRedirect extends HttpServlet {
@@ -536,5 +534,5 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     }
     ```
 
-*   访问local
+*   访问`localhost:8080/TestRedirect`后自动跳转至`localhost:8080/TestRedirect2`,并且控制台输出
 
