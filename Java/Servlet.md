@@ -537,4 +537,6 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
     Do TestRedirect......
     Do TestRedirect2......*/
     ```
+    
+*   相比于`转发`，
 
