@@ -254,7 +254,7 @@
      
 		
     	Employee e = new Employee();
-    		while (rs.next()){
+    	while (rs.next()){
                 int id = rs.getInt("id");
                 String ename = rs.getString("ename");
                 int job_id = rs.getInt("job_id");
