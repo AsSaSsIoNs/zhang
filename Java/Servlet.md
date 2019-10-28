@@ -502,5 +502,10 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 
     - 使用了Map来承接所有的参数，参数的值可以是一个数组
     
-        ### 
+## 请求转发
+
+### 测试一下
+
+*   写两个Servlet
+*   
 
