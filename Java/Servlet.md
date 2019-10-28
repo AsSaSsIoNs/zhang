@@ -507,5 +507,16 @@ org.apache.catalina.connector.RequestFacade@6e70f6c0
 ### 测试一下
 
 *   写两个Servlet
-*   
+
+*   ```
+    //TestServlet.doGet
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            System.out.println("Do TestRedirect......");
+            resp.setStatus(302);
+            resp.sendRedirect("/TestRedirect2");
+        }
+    //
+    ```
+
+    
 
