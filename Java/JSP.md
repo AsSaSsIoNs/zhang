@@ -50,13 +50,16 @@
 * 同时编写一个`ErrorPage.jsp`文件
 
     ```html
-    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" language="java" %><%--isErrorPage标记是否为错误页，true时exception对象就可用了--%>
     <html>
     <head>
         <title>错误页面</title>
     </head>
     <body>
         <h1>服务器发生错误</h1>
+        <%
+            System.out.println(exception.getMessage());//这句话必须在isErrorPage为true时才可用
+        %>
     </body>
     </html>
     ```
