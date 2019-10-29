@@ -76,7 +76,7 @@
 
 ## 共享
 
-* 实现两个项目共享一个Cookie
+* 实现两个项目共享一个`Cookie`，为此在IDEA中新建一个`Module`
 
 * ```java
     @WebServlet(name = "Test1", urlPatterns = "/Test1")
@@ -128,7 +128,9 @@
 
 * 先访问`Test1`，再访问`Test2`，再访问`TestCookie`
 
-* 
+* ![image-20191029104020474](image-20191029104020474.png)
+
+* 成功地实现了在不同项目中共享`Cookie`
 
 
 
