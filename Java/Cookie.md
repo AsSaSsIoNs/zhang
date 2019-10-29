@@ -62,7 +62,7 @@
     }
     ```
 
-* 还是刚才的操作，先访问`localhost:8080/TestCookie/Test1`，再访问`localhost:8080/TestCookie/Test2`，控制台shu'ch
+* 还是刚才的操作，先访问`localhost:8080/TestCookie/Test1`，再访问`localhost:8080/TestCookie/Test2`，控制台输出为
 
 
 
