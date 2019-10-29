@@ -29,7 +29,9 @@
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             this.doPost(request, response);
         }
-    }//在另外一个页面中
+    }//在另外一个页面中提取Cookie的键值对并输出
+    
+    
     ```
 
-    
+* 结果为
