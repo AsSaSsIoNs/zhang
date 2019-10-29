@@ -32,9 +32,15 @@
     }//在另外一个页面中提取Cookie的键值对并输出
     ```
 
-* 先访问localhost:8080/TestCookie/Test1再访问结果为![image-20191029101634108](image-20191029101634108.png)
+* 先访问`localhost:8080/TestCookie/Test1`再访问`localhost:8080/TestCookie/Test2`
+
+* 结果为![image-20191029101634108](image-20191029101634108.png)
 
 ## 持久化
 
-默认情况下，关闭浏览器Cookie即会被删除
+* 默认情况下，关闭浏览器Cookie即会被删除
+
+	* 还是上面两个`Servlet`
+	* 先访问`localhost:8080/TestCookie/Test1`，再关闭浏览器，再访问`localhost:8080/TestCookie/Test2`
+	* 控制台中没有上面的Cookie
 
