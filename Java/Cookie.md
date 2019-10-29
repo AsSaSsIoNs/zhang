@@ -52,7 +52,7 @@
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             System.out.println("Hello");
             Cookie cookie = new Cookie("cookie", "testCookie");
-            cookie.setMaxAge(20);
+            cookie.setMaxAge(20);//设置持续时间
             response.addCookie(cookie);
             response.addCookie(new Cookie("hello", "你好"));
         }
@@ -68,7 +68,9 @@
 
 * 可以发现，`cookie=testCookie`消失，原因是我们设置了20秒后自动删除，而没有设置自动删除的`cookie`被保留下来，当然如果关闭了浏览器，它也会被删除
 
-* 如果设置`cookie.setMaxAge()`参数为一个很大的值，那么它将会被长时间保留，即使关闭了浏览器也是如此
+* 如果设置`cookie.setMaxAge()`参数为一个很大的值，那么它将会被长时间保留，即使关闭了浏览器也是如此，将其设置为`10000`
+
+* 访问Test1后关闭浏览器再访问Test2，输出为
 
 
 
