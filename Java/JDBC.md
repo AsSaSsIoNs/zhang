@@ -251,29 +251,29 @@
 *   在写程序时，遇到了一个问题，下面是出问题的代码和结果
 
 *   ```java
-    		Employee e = new Employee();
-    		while (rs.next()){
-                int id = rs.getInt("id");
-                String ename = rs.getString("ename");
-                int job_id = rs.getInt("job_id");
-                int mgr = rs.getInt("mgr");
-                Date joindate = rs.getDate("joindate");
-                int salary = rs.getInt("salary");
-                e.setId(id);
-                e.setEname(ename);
-                e.setJob_id(job_id);
-                e.setMgr(mgr);
-                e.setJoindate(joindate);
-                e.setSalary(salary);
-                list.add(e);
-            }
-            for (Employee each : list) {
-                System.out.println(each);
-            }//看起来好像没什么问题，但是为什么列表里面全是一个内容呢
+    Employee e = new Employee();
+    while (rs.next()){
+        int id = rs.getInt("id");
+        String ename = rs.getString("ename");
+        int job_id = rs.getInt("job_id");
+        int mgr = rs.getInt("mgr");
+        Date joindate = rs.getDate("joindate");
+        int salary = rs.getInt("salary");
+        e.setId(id);
+        e.setEname(ename);
+        e.setJob_id(job_id);
+        e.setMgr(mgr);
+        e.setJoindate(joindate);
+        e.setSalary(salary);         
+        list.add(e);
+    }
+    for (Employee each : list) {
+       System.out.println(each);
+    }//看起来好像没什么问题，但是为什么列表里面全是一个内容呢
     ```
-
-    ![1571642172760](1571642172760.png)
-
+    
+![1571642172760](1571642172760.png)
+    
 *   经过研究后发现，每一步的while循环中，上面的代码都引用了同一个对象。比如说进行到第二步时，引用`e`的参数都被设置了，看似好像执行`add`方法毫无问题，但是`e`此时还引用着`ArrayList`里面的第一个`Employee`对象，所以此时设置引用`e`的参数，相当于也设置了`ArrayList`里面的第一个对象。这个理解也可以将上面出错的结果解释清楚，当进行最后一步时，设置`e`的属性同时也将`ArrayList`中所有元素的属性以同样的值设定了
 
 ### 使用自定的类简化连接操作
@@ -423,6 +423,7 @@
 *   先来看看没有事务会发生什么
 
     ```java
+    
     public static void main(String[] args) throws SQLException {
             Connection conn = Utils.getConnection();
             //conn.setAutoCommit(false); 此处设置了事务的开启与否，默认为关闭事务
@@ -450,6 +451,7 @@
 | ---- | ----- | ------- |
 | 1    | zhang | 500     |
 | 2    | li    | 1000    |
+
 只执行了一半，这样是不好的
 
 * 将上面被注释的两行取消注释，同时将account表恢复原样，运行代码后表的内容为
@@ -458,6 +460,7 @@
 | ---- | ----- | ------- |
 | 1    | zhang | 1000    |
 | 2    | li    | 1000    |
+
 发现出现异常后account表成功地保持了原样
 
 
