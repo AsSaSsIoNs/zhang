@@ -126,7 +126,9 @@
     }//新项目下获取cookie
     ```
 
-* 先访问Test
+* 先访问`Test1`，再访问`Test2`，再访问`TestCookie`
+
+* 
 
 
 
