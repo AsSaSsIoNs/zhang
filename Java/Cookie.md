@@ -66,7 +66,9 @@
 
 * 等待20秒后刷新`localhost:8080/TestCookie/Test2`，输出为![image-20191029102610471](image-20191029102610471.png)
 
-* 可以发现，cookie=testcookie
+* 可以发现，`cookie=testCookie`消失，原因是我们设置了20秒后自动删除，而没有设置自动删除的`cookie`被保留下来，当然如果关闭了浏览器，它也会被删除
+
+* 如果设置
 
 
 
