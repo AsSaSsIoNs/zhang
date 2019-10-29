@@ -62,7 +62,11 @@
     }
     ```
 
-* 还是刚才的操作，先访问`localhost:8080/TestCookie/Test1`，再访问`localhost:8080/TestCookie/Test2`，控制台输出为
+* 还是刚才的操作，先访问`localhost:8080/TestCookie/Test1`，再访问`localhost:8080/TestCookie/Test2`，控制台输出为![image-20191029102453244](image-20191029102453244.png)
+
+* 等待20秒后刷新`localhost:8080/TestCookie/Test2`，输出为![image-20191029102610471](image-20191029102610471.png)
+
+* 可以发现，cookie=testcookie
 
 
 
