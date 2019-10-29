@@ -46,13 +46,13 @@
 	
 * 修改Test1.java
 
-    ```
+    ```java
     @WebServlet(name = "Test1", urlPatterns = "/Test1")
     public class Test1 extends HttpServlet {
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             System.out.println("Hello");
             Cookie cookie = new Cookie("cookie", "testCookie");
-            cookie.setPath("/");
+            cookie.setMaxAge(20);
             response.addCookie(cookie);
             response.addCookie(new Cookie("hello", "你好"));
         }
@@ -62,7 +62,7 @@
     }
     ```
 
-    
+* 还是刚才的操作，先访问`localhost:8080/TestCookie/Test1`，再访问`localhost:8080/TestCookie/Test2`，控制台shu'ch
 
 
 
