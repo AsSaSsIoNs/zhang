@@ -2,7 +2,7 @@
 
 `Java Server Pages`在网页中嵌入`Java`代码
 
-## 体验
+## 快速体验
 
 * 新建`index.jsp`
 
@@ -22,5 +22,13 @@
     </html>
     ```
 
-* 部署服务器后访问 http://localhost:8080/TestCookie/ 
+* 部署服务器后访问 http://localhost:8080/TestCookie/ ![image-20191029213705640](image-20191029213705640.png)
+
+* 与此同时控制台输出![image-20191029213733003](image-20191029213733003.png)
+
+错误页
+
+* 有时
+
+
 
