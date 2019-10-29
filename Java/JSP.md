@@ -22,5 +22,5 @@
     </html>
     ```
 
-* 部署服务器后访问
+* 部署服务器后访问 http://localhost:8080/TestCookie/ 
 
