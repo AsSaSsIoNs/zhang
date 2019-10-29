@@ -6,7 +6,7 @@
 
 * 新建`index.jsp`
 
-    ```html
+    ```jsp
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <html>
       <head>
@@ -30,7 +30,7 @@
 
 * 有时访问网页错误时并不想看到报错信息，这时候需要定义`errorPage`属性
 
-* ```html
+* ```jsp
     <%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="ErrorPage.jsp" <%--设置错误页跳转至相应的页面--%>%>
     <html>
       <head>
@@ -49,7 +49,7 @@
 
 * 同时编写一个`ErrorPage.jsp`文件
 
-    ```html
+    ```jsp
     <%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" language="java" %><%--isErrorPage标记是否为错误页，true时exception对象就可用了--%>
     <html>
     <head>
