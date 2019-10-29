@@ -29,7 +29,25 @@
 错误页
 
 * 有时访问网页错误时并不想看到报错信息，这时候需要定义`errorPage`属性
-* 
+
+* ```html
+    <%@ page contentType="text/html;charset=UTF-8" language="java" errorPage="ErrorPage.jsp" %>
+    <html>
+      <head>
+        <title>$Title$</title>
+      </head>
+      <body>
+      $END$
+      <%
+        System.out.println("Hello");
+        int i = 1 / 0;<%--错误的代码块--%>
+      %>
+      <h1>Hello</h1>
+      </body>
+    </html>
+    ```
+
+    
 
 
 
