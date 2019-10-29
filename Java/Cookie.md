@@ -84,7 +84,7 @@
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             System.out.println("Hello");
             Cookie cookie = new Cookie("cookie", "testCookie");
-            cookie.setPath("/");
+            cookie.setPath("/");//设置cookie路径为根目录，若不设置则在新项目中就get不到cookie
             response.addCookie(cookie);
             response.addCookie(new Cookie("hello", "你好"));
         }
@@ -110,7 +110,23 @@
     }
     ```
 
-    
+    ```java
+    @WebServlet(name = "TestCookie", urlPatterns = "/TestCookie")
+    public class TestCookie extends HttpServlet {
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            System.out.println("TestCookie");
+            Cookie[] cookies = request.getCookies();
+            for (Cookie each : cookies) {
+                System.out.println(each.getName() + "=" + each.getValue());
+            }
+        }
+        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            this.doPost(request, response);
+        }
+    }//新项目下获取cookie
+    ```
+
+* 先访问Test
 
 
 
