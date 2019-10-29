@@ -47,7 +47,21 @@
     </html>
     ```
 
-* 同时编写一个ErrorPage.jsp~文件
+* 同时编写一个`ErrorPage.jsp`文件
+
+    ```html
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <html>
+    <head>
+        <title>错误页面</title>
+    </head>
+    <body>
+        <h1>服务器发生错误</h1>
+    </body>
+    </html>
+    ```
+
+* 启动服务器访问
 
 
 
