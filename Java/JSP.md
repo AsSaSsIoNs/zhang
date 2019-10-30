@@ -70,7 +70,7 @@
 
 ## EL表达式
 
-用于在jsp页面中内嵌代码
+用于在`jsp`页面中内嵌代码
 
 * ```jsp
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -79,13 +79,13 @@
             <title>TestEL</title>
         </head>
         <body>
-            ${1 == 1}
-            \${1 == 1}
+            ${1 == 1}	<%--美元符号括起来的内容就是可运行的代码--%>
+            \${1 == 1}	<%--使用转义字符来忽略--%>
         </body>
     </html>
     ```
 
-    
+* 
 
 
 
