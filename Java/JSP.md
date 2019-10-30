@@ -87,6 +87,11 @@
                 User user = new User("zhang", 18);
             /*
             	已经定义了User对象，
+            	public class User {
+        			private String name;
+        			private int age;
+        			Ge
+        		}
             */
                 request.setAttribute("user", user);
             %>
