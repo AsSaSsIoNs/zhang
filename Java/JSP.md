@@ -82,7 +82,7 @@
             ${1 == 1}
             \${1 == 1}<%--美元加大括号括起来的可执行的一段代码，也可以使用转义字符--%>
             
-            <h3>获取User</h3>
+            <h3>获取User</h3><%--类的存取--%>
             <%
                 User user = new User("zhang", 18);
             /*
@@ -90,14 +90,15 @@
             	public class User {
         			private String name;
         			private int age;
-        			Ge
+        			**Getters and Setters**
+        			//这种好像也被称为一个JavaBean
         		}
             */
-                request.setAttribute("user", user);
+                request.setAttribute("user", user);//将这个数据存储
             %>
             ${requestScope.user.toString()}<br>
             
-            <h3>ArrayList</h3>
+            <h3>ArrayList</h3><%--ArrayList类型的存取--%>
             <%
                 ArrayList<Integer> ints;
                 ints = new ArrayList<Integer>();
@@ -110,7 +111,7 @@
             ${requestScope.ints[1]}
             ${requestScope.ints[2]}<br>
             
-            <h3>HashMap</h3>
+            <h3>HashMap</h3><%--HashMap类型的存取--%>
             <%
                 HashMap hashMap = new HashMap();
                 hashMap.put("name", "li");
@@ -120,7 +121,7 @@
             ${requestScope.hashMap.name}
             ${requestScope.hashMap["age"]}
             
-            <h3>empty运算符</h3>
+            <h3>empty运算符</h3><%--empty运算符--%>
             <%
                 String string1 = "test";
                 String string2 = null;
@@ -132,7 +133,7 @@
             ${empty string1}
             ${empty string2}
             
-            <h3>pageContext</h3>
+            <h3>pageContext</h3><%--内置对象pageContext--%>
             ${pageContext.request.contextPath}<br>
         </body>
     </html>
