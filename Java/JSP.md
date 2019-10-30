@@ -72,7 +72,20 @@
 
 用于在jsp页面中内嵌代码
 
-* 
+* ```jsp
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <html>
+        <head>
+            <title>TestEL</title>
+        </head>
+        <body>
+            ${1 == 1}
+            \${1 == 1}
+        </body>
+    </html>
+    ```
+
+    
 
 
 
