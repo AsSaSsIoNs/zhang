@@ -80,11 +80,14 @@
         </head>
         <body>
             ${1 == 1}
-            \${1 == 1}//美元加大括号括起来的可执行的一段代码，也可以使用转义字符
+            \${1 == 1}<%--美元加大括号括起来的可执行的一段代码，也可以使用转义字符--%>
             
             <h3>获取User</h3>
             <%
                 User user = new User("zhang", 18);
+            /*
+            	已经定义了User对象，
+            */
                 request.setAttribute("user", user);
             %>
             ${requestScope.user.toString()}<br>
