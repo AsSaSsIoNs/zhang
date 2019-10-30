@@ -79,8 +79,53 @@
             <title>TestEL</title>
         </head>
         <body>
-            ${1 == 1}	<%--美元符号括起来的内容就是可运行的代码--%>
-            \${1 == 1}	<%--使用转义字符来忽略--%>
+            ${1 == 1}
+            \${1 == 1}//美元加大括号括起来的可执行的一段代码，也可以使用转义字符
+            
+            <h3>获取User</h3>
+            <%
+                User user = new User("zhang", 18);
+                request.setAttribute("user", user);
+            %>
+            ${requestScope.user.toString()}<br>
+            
+            <h3>ArrayList</h3>
+            <%
+                ArrayList<Integer> ints;
+                ints = new ArrayList<Integer>();
+                ints.add(1);
+                ints.add(2);
+                ints.add(3);
+                request.setAttribute("ints", ints);
+            %>
+            ${requestScope.ints[0]}
+            ${requestScope.ints[1]}
+            ${requestScope.ints[2]}<br>
+            
+            <h3>HashMap</h3>
+            <%
+                HashMap hashMap = new HashMap();
+                hashMap.put("name", "li");
+                hashMap.put("age", 11);
+                request.setAttribute("hashMap", hashMap);
+            %>
+            ${requestScope.hashMap.name}
+            ${requestScope.hashMap["age"]}
+            
+            <h3>empty运算符</h3>
+            <%
+                String string1 = "test";
+                String string2 = null;
+                request.setAttribute("string1", string1);
+                request.setAttribute("string2", string2);
+            %>
+            ${requestScope.string1}
+            ${requestScope.string2}<br>
+            ${empty string1}
+            ${empty string2}
+            
+            <h3>pageContext</h3>
+            ${pageContext.request.contextPath}<br>
         </body>
     </html>
     ```
