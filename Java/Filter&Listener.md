@@ -64,7 +64,9 @@
     }
     ```
 
-    连续访问两次次``localhost:8080/test1_war_exploded/FilterDemo2.jsp`，结果为![image-20191031184229850](image-20191031184229850.png)
+    连续访问两次``localhost:8080/test1_war_exploded/FilterDemo2.jsp`，结果为![image-20191031184229850](image-20191031184229850.png)
+
+* 
 
     
 
