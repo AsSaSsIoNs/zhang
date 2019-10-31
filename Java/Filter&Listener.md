@@ -32,9 +32,11 @@
             chain.doFilter(req, resp);
             System.out.println("doFilter again...");
         }
-    //结果为doFilter...
+    /*
+    结果为doFilter...
     FilterDemo1.jsp
     doFilter again...
+    过滤之后还会返回*/
     ```
 
     ```jsp
