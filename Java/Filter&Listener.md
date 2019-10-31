@@ -94,7 +94,7 @@
   }
   ```
   
-  二者都标记为访问index.jsp时执行过滤，但是第一个标注为直接访问，第二个为转发访问，所以直接访问index.jsp时，
+  二者都标记为访问`index.jsp`时执行过滤，但是第一个标注为直接访问，第二个为转发访问，所以直接访问`index.jsp`时，输出`DispatcherType.REQUEST`，而转发访问时输出`DispatcherType.FORWARD`
 
 
 
