@@ -32,6 +32,17 @@
             chain.doFilter(req, resp);
             System.out.println("doFilter again...");
         }
+    //结果为doFilter...
+    FilterDemo1.jsp
+    doFilter again...
+    ```
+
+    ```jsp
+    <body>
+    <%
+      System.out.println("FilterDemo1.jsp");
+    %>
+    </body>
     ```
 
     
