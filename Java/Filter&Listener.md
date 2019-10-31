@@ -26,7 +26,15 @@
 
 ## 细节
 
+*   ```java
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+            System.out.println("doFilter...");
+            chain.doFilter(req, resp);
+            System.out.println("doFilter again...");
+        }
+    ```
 
+    
 
 
 
