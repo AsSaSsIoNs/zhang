@@ -66,9 +66,23 @@
 
     连续访问两次``localhost:8080/test1_war_exploded/FilterDemo2.jsp`，结果为![image-20191031184229850](image-20191031184229850.png)
 
-* 
-
+* ```java
+@WebFilter(filterName = "FilterDemo3", urlPatterns = "/index.jsp", dispatcherTypes = DispatcherType.REQUEST)
+  public class FilterDemo3 implements Filter {
+      public void destroy() {
+      }
+      public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+          System.out.println("DispatcherType.REQUEST");
+          chain.doFilter(req, resp);
+      }
+      public void init(FilterConfig config) throws ServletException {
+      }
+  }
+  ```
+  
     
+  
+  
 
 
 
