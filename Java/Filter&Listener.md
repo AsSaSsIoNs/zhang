@@ -80,9 +80,21 @@
   }
   ```
   
-    
+  ```java
+  @WebFilter(filterName = "FilterDemo4", urlPatterns = "/index.jsp", dispatcherTypes = DispatcherType.FORWARD)
+  public class FilterDemo4 implements Filter {
+      public void destroy() {
+      }
+      public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+          System.out.println("DispatcherType.FORWARD");
+          chain.doFilter(req, resp);
+      }
+      public void init(FilterConfig config) throws ServletException {
+      }
+  }
+  ```
   
-  
+  二者都标记为访问index.jsp时执行过滤，但是第一个标注为直接访问，第二个为转发访问，所以直接访问index.jsp时，
 
 
 
