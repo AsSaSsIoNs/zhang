@@ -2,9 +2,9 @@
 
 方便地进行数据库读写
 
-*   新建Maven白板工程
+*   新建`Maven`白板工程
 
-*   编辑pom.xml文件，导入包
+*   编辑`pom.xml`文件，导入包
 
     ```xml
     <dependencies>
@@ -31,9 +31,9 @@
         </dependencies>
     ```
 
-    主要是mybatis\mysqlconnector\junit\log4j四个包
+    主要是`mybatis` \ `mysqlconnector` \ `junit` \ `log4j`四个包
 
-*   ./src/main/java/com/zhang/domain/建立User类
+*   `./src/main/java/com/zhang/domain/`建立`User`类
 
     ```java
     package com.zhang.domain;
@@ -43,10 +43,11 @@
         private Date birthday;
         private String sex;
         private String address;
+        /*Getters Setters toString*/
     }
     ```
 
-*   ./src/main/resources/下建立SqlMapConfig.xml文件配置连接
+*   `./src/main/resources/`下建立`SqlMapConfig.xml`文件配置连接
 
     ```xml
     <configuration>
@@ -62,7 +63,7 @@
             </environment>
         </environments>
         <mappers>
-            <mapper resource="com/zhang/dao/UserDao.xml"/><!---->
+            <mapper resource="com/zhang/dao/UserDao.xml"/><!--指示查询配置文件的位置-->
         </mappers>
     </configuration>
     ```
@@ -70,11 +71,11 @@
 *   ./src/main/resources/com/zhang/dao下建立UserDao.xml,设置查询
 
     ```xml
-    <mapper namespace="test">
-        <select id="findAll" resultType="com.zhang.domain.User">
+    <mapper namespace="test"><!--设置命名空间-->
+        <select id="findAll" resultType="com.zhang.domain.User"><!--resultType设置查询后要返回的对象-->
             select * from user
         </select>
-        <select id="SelectById" parameterType="int" resultType="com.zhang.domain.User">
+        <select id="SelectById" parameterType="int" resultType="com.zhang.domain.User"><!--parameterType设置为查询参数的类型-->
             select * from user where id=#{value}
         </select>
         <select id="SelectByUsername" parameterType="String" resultType="com.zhang.domain.User">
