@@ -68,7 +68,7 @@
     </configuration>
     ```
 
-*   ./src/main/resources/com/zhang/dao下建立UserDao.xml,设置查询
+*   `./src/main/resources/com/zhang/dao`下建立`UserDao.xml`,设置查询
 
     ```xml
     <mapper namespace="test"><!--设置命名空间-->
@@ -84,7 +84,7 @@
     </mapper>
     ```
 
-*   ./src/test/java/建立单元测试类TestMyBatis
+*   `./src/test/java/`建立单元测试类`TestMyBatis`
 
     ```java
     public class TestMyBatis {
@@ -137,7 +137,3 @@
         */
     }
     ```
-
-    
-
-*   
