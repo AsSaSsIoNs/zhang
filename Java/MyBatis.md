@@ -46,4 +46,25 @@
     }
     ```
 
-*   ./src/main/resources/下建立
+*   ./src/main/resources/下建立SqlMapConfig.xml文件配置连接
+
+    ```xml
+    <configuration>
+        <environments default="mysql">
+            <environment id="mysql">
+                <transactionManager type="JDBC"></transactionManager>
+                <dataSource type="POOLED">
+                    <property name="driver" value="com.mysql.jdbc.Driver"/>
+                    <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+                    <property name="username" value="root"/>
+                    <property name="password" value=""/>
+                </dataSource>
+            </environment>
+        </environments>
+        <mappers>
+            <mapper resource="com/zhang/dao/UserDao.xml"/>
+        </mappers>
+    </configuration>
+    ```
+
+*   
