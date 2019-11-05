@@ -62,7 +62,7 @@
             </environment>
         </environments>
         <mappers>
-            <mapper resource="com/zhang/dao/UserDao.xml"/>
+            <mapper resource="com/zhang/dao/UserDao.xml"/><!---->
         </mappers>
     </configuration>
     ```
@@ -93,7 +93,7 @@
             InputStream resourceAsStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
             SqlSession sqlSession = build.openSession();
-            List<Object> objects = sqlSession.selectList("test.findAll");
+            List<Object> objects = sqlSession.selectList("test.findAll");//命名空间+方法名
             for (Object each : objects) {
                 System.out.println(each);
             }
@@ -107,7 +107,7 @@
             InputStream resourceAsStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
             SqlSession sqlSession = build.openSession();
-            List<Object> objects = sqlSession.selectList("test.SelectById", 50);
+            List<Object> objects = sqlSession.selectList("test.SelectById", 50);//命名空间+方法名，加上参数
             for (Object each : objects) {
                 System.out.println(each);
             }
@@ -123,7 +123,7 @@
             InputStream resourceAsStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
             SqlSession sqlSession = build.openSession();
-            List<Object> objects = sqlSession.selectList("test.SelectByUsername", "张");
+            List<Object> objects = sqlSession.selectList("test.SelectByUsername", "张");//经过测试，命名空间可以随意设置，目的是分开可能重名的方法
             for (Object each : objects) {
                 System.out.println(each);
             }
