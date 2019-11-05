@@ -85,4 +85,51 @@
 
 *   ./src/test/java/建立单元测试类TestMyBatis
 
+    ```java
+    public class TestMyBatis {
+        @Test
+        public void testSelectAll() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.findAll");
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
+        }
+    /**/
+        @Test
+        public void testSelectById() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.SelectById", 50);
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
+        }
+        @Test
+        public void testSelectByUsername() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.SelectByUsername", "张");
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
+        }
+    }
+    ```
+
+    
+
 *   
