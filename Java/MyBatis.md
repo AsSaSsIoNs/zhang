@@ -79,9 +79,11 @@
             select * from user where id=#{value}
         </select>
         <select id="SelectByUsername" parameterType="String" resultType="com.zhang.domain.User">
-            select * from user where username like #{value}
+            select * from user where username like '%${value}%'
         </select>
     </mapper>
     ```
+
+*   
 
 *   
