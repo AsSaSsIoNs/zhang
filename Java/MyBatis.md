@@ -67,4 +67,21 @@
     </configuration>
     ```
 
+*   ./src/main/resources/com/zhang/dao下建立UserDao.xml,设置查询
+
+    ```xml
+    <mapper namespace="test">
+        <!--配置查询所有-->
+        <select id="findAll" resultType="com.zhang.domain.User">
+            select * from user
+        </select>
+        <select id="SelectById" parameterType="int" resultType="com.zhang.domain.User">
+            select * from user where id=#{value}
+        </select>
+        <select id="SelectByUsername" parameterType="String" resultType="com.zhang.domain.User">
+            select * from user where username like #{value}
+        </select>
+    </mapper>
+    ```
+
 *   
