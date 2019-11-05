@@ -71,7 +71,6 @@
 
     ```xml
     <mapper namespace="test">
-        <!--配置查询所有-->
         <select id="findAll" resultType="com.zhang.domain.User">
             select * from user
         </select>
@@ -84,6 +83,6 @@
     </mapper>
     ```
 
-*   
+*   ./src/test/java/建立单元测试类TestMyBatis
 
 *   
