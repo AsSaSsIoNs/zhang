@@ -100,7 +100,7 @@
             sqlSession.close();
             resourceAsStream.close();
         }
-    /**/
+    /*已经测试过*/
         @Test
         public void testSelectById() throws Exception{
             String resource = "SqlMapConfig.xml";
@@ -114,6 +114,9 @@
             sqlSession.close();
             resourceAsStream.close();
         }
+        /*
+        User{id=50, username='张一', birthday=Mon Nov 04 00:00:00 CST 2019, sex='男', address='西安'}
+        */
         @Test
         public void testSelectByUsername() throws Exception{
             String resource = "SqlMapConfig.xml";
@@ -127,6 +130,10 @@
             sqlSession.close();
             resourceAsStream.close();
         }
+        /*
+        User{id=50, username='张一', birthday=Mon Nov 04 00:00:00 CST 2019, sex='男', address='西安'}
+    User{id=51, username='张二', birthday=Mon Nov 04 00:00:00 CST 2019, sex='女', address='西安'}
+        */
     }
     ```
 
