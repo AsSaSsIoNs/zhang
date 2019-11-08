@@ -144,4 +144,18 @@
 
 解决User类属性和数据库列名不一致的匹配问题
 
-*   如果User类的性别属性名改为gender，再运行测试结果是这样的![image-20191108213054150](image-20191108213054150.png)可以看到gender栏位wei
+*   如果User类的性别属性名改为gender，再运行测试结果是这样的![image-20191108213054150](image-20191108213054150.png)可以看到gender栏位为null
+
+*   为此有两种解决方法
+
+*   ```xml
+    <select id="findAll" resultType="com.zhang.domain.User">
+            select id, username, birthday, sex as gender, address  from user
+        </select>
+    ```
+
+    ```
+    
+    ```
+
+    
