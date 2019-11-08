@@ -151,11 +151,16 @@
 *   ```xml
     <select id="findAll" resultType="com.zhang.domain.User">
             select id, username, birthday, sex as gender, address  from user
-        </select>
+    </select><!--这种最为简便-->
     ```
 
-    ```
-    
+    ```xml
+    <resultMap id="resultMap" type="com.zhang.domain.User">
+            <result property="gender" column="sex"></result>
+        </resultMap>
+    <select id="findAll" resultMap="resultMap">
+            select * from user
+    </select>
     ```
 
     
