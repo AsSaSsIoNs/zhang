@@ -160,7 +160,7 @@
         </resultMap>
     <select id="findAll" resultMap="resultMap">
             select * from user
-    </select>
+    </select><!--这种最为通用，通常用这种方法-->
     ```
 
-    
+*   方法一直接起别名，
