@@ -247,3 +247,62 @@
     /*User{id=41, username='老王', birthday=Tue Feb 27 17:47:08 CST 2018, gender='男', address='北京'}
     User{id=42, username='小二王', birthday=Fri Mar 02 15:09:37 CST 2018, gender='女', address='北京金燕龙'}*/
     ```
+
+## 一对多查询
+
+*   一对多查询时需要设置`xml`文件
+
+    ```xml
+    <resultMap id="testMultiTable" type="com.zhang.domain.User">
+            <id property="id" column="id"></id>
+            <result property="username" column="username"></result>
+            <result property="birthday" column="birthday"></result>
+            <result property="gender" column="sex"></result>
+            <result property="address" column="address"></result>
+            <collection property="accounts" ofType="com.zhang.domain.Account">
+                <id property="uid" column="uid"></id>
+                <result property="money" column="money"></result>
+                <result property="id" column="id"></result>
+            </collection><!--id标签表示主键，而collection标签表示-->
+        </resultMap>
+        <select id="SelectMultiTable" resultMap="testMultiTable">
+            select a.*, u.username, u.address from user u, account a where u.id=a.uid
+        </select>
+    ```
+
+*   新建`Account.java`
+
+    ```java
+    public class Account {
+        private Integer id;
+        private Integer uid;
+        private Integer money;
+        private User user;//附表中应该添加主表
+        /*Getters Setters toString*/
+    }
+    ```
+
+*   SQL语句原始运行结果![image-20191112210113677](image-20191112210113677.png)
+
+*   测试代码
+
+    ```java
+    @Test
+        public void testSelectMultiTable(){
+            List<User> users = sqlSession.selectList("test.SelectMultiTable");
+            for (User each : users) {
+                System.out.println(each);
+                System.out.println(each.getAccounts());
+            }
+        }
+    /*结果为
+    User{id=1, username='老王', birthday=null, gender='null', address='北京'}
+    [Account{id=1, uid=41, money=1000, user=null}]
+    User{id=2, username='传智播客', birthday=null, gender='null', address='北京金燕龙'}
+    [Account{id=2, uid=45, money=1000, user=null}]
+    User{id=3, username='老王', birthday=null, gender='null', address='北京'}
+    [Account{id=3, uid=41, money=2000, user=null}]
+    */
+    ```
+
+    
