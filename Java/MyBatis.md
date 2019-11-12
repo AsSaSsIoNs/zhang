@@ -166,3 +166,90 @@
 *   方法一直接起别名，观察语句中的as，前面是sex，来自数据库，因为实体类要求是gender，所以封装为gender，简单快捷，效率也高，但是当要修改多行代码或栏位特别多时会很繁琐
 
 *   方法二采用了resultMap，给查询下来的结果做转换，但是需要注意select标签的resultType属性不能像以前一样设置，需要设置为resultMap属性，效率稍显繁琐，但是比较通用，而且在应对许多查询语句时代码量比上一种方法简便
+
+## 动态SQL
+
+*   考虑需求为根据不同的给出条件选择出对应项，比如给username或者id、gender等，只用写一条查询应该怎么写
+
+*   ```xml
+    <!--
+    ./src/main/resources/com/zhang/dao/UserDao.xml中追加
+    -->
+    <select id="SelectByRandom" resultMap="resultMap" parameterType="com.zhang.domain.User"><!--使用不同的参数来拼接，如果有名字就查询名字，有性别就查询性别-->
+            select * from user
+            <where>
+                <if test="username != null">
+                    and username = #{username}
+                </if>
+                <if test="gender != null">
+                    and sex = #{gender}
+                </if>
+            </where><!--where和if标签的使用，test属性表示条件-->
+        </select>
+    ```
+
+    ```java
+    public class QueryVo {
+        private User user;
+    private List<Integer> ids;
+        /*Getter Setter toString*/
+```
+    
+    ```java
+    /*./src/test/java/TestMybatis.java追加内容*/
+    @Test
+        public void selectByQueryVo(){
+            User user = new User();
+            user.setUsername("%张%");
+            QueryVo queryVo = new QueryVo();
+            queryVo.setUser(user);
+            List<Object> objects = sqlSession.selectList("test.SelectByQueryVo", queryVo);
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+        }
+    /*User{id=51, username='张四', birthday=Fri Nov 08 21:01:20 CST 2019, gender='null', address='西安'}
+    User{id=53, username='张四', birthday=Fri Nov 08 21:02:48 CST 2019, gender='null', address='西安'}*/
+```
+    
+*   给出一个id的集合，查询出在这个集合中的项，使用动态SQL
+
+    ```xml
+    <!--
+    ./src/main/resources/com/zhang/dao/UserDao.xml中追加
+    -->
+    <select id="SelectUserInIds" resultMap="resultMap" parameterType="com.zhang.domain.QueryVo">
+            select * from user
+            <where>
+                <if test="ids != null and ids.size()>0">
+                    <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                        #{id}
+                    </foreach>
+                </if>
+            </where>
+        </select>
+    ```
+
+    ```java
+    /*./src/test/java/TestMybatis.java追加内容*/
+    @Test
+        public void testSelectUserInIds(){
+            QueryVo queryVo = new QueryVo();
+            List<Integer> ids = new ArrayList<Integer>();
+            ids.add(41);
+            ids.add(42);
+            queryVo.setIds(ids);
+            List<Object> objects = sqlSession.selectList("test.SelectUserInIds", queryVo);
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+        }
+    /*User{id=41, username='老王', birthday=Tue Feb 27 17:47:08 CST 2018, gender='男', address='北京'}
+    User{id=42, username='小二王', birthday=Fri Mar 02 15:09:37 CST 2018, gender='女', address='北京金燕龙'}*/
+    ```
+
+    
+
+*   
+
+​    
