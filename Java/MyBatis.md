@@ -193,7 +193,8 @@
         private User user;
     private List<Integer> ids;
         /*Getter Setter toString*/
-```
+	```
+    
     
     ```java
     /*./src/test/java/TestMybatis.java追加内容*/
@@ -210,8 +211,8 @@
         }
     /*User{id=51, username='张四', birthday=Fri Nov 08 21:01:20 CST 2019, gender='null', address='西安'}
     User{id=53, username='张四', birthday=Fri Nov 08 21:02:48 CST 2019, gender='null', address='西安'}*/
-```
-    
+    ```
+
 *   给出一个id的集合，查询出在这个集合中的项，使用动态SQL
 
     ```xml
@@ -229,7 +230,6 @@
             </where>
         </select>
     ```
-
     ```java
     /*./src/test/java/TestMybatis.java追加内容*/
     @Test
@@ -247,9 +247,3 @@
     /*User{id=41, username='老王', birthday=Tue Feb 27 17:47:08 CST 2018, gender='男', address='北京'}
     User{id=42, username='小二王', birthday=Fri Mar 02 15:09:37 CST 2018, gender='女', address='北京金燕龙'}*/
     ```
-
-    
-
-*   
-
-​    
