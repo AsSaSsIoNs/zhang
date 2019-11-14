@@ -428,14 +428,12 @@
         public void testDeleteById(){
             iUserDao.deleteById(55);
             sqlSession.commit();
-        }/*运行后id=55的*/
-    
+        }/*运行后id=55的记录消失*/
         @Test
         public void testSelectById(){
             User user = iUserDao.selectById(53);
             System.out.println(user);
-        }
-    
+        }/*User{id=53, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:02:48 CST 2019}*/
         @Test
         public void testSelectByName(){
             List<User> users = iUserDao.selectByName("%王%");
