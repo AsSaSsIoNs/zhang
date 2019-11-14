@@ -346,4 +346,19 @@
     jdbc.password=
     ```
 
-*   建立yo
+*   建立用户类User以及其接口IUserDao
+
+    ```
+    public class User {
+        private Integer id;
+        private String username;
+        private String address;
+        private String sex;
+        private Date birthday;
+    }
+    
+    ```
+
+    
+
+*   
