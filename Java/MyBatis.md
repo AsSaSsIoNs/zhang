@@ -382,6 +382,68 @@
     }
     ```
 
-*   ./src/test
+*   ./src/test/java/
+
+    ```java
+    	@Test
+        public void testSelectAll() throws Exception {
+            List<User> users = iUserDao.findAll();
+            for (User each : users) {
+                System.out.println(each);
+            }
+        }/**/
+    
+        @Test
+        public void testInsert(){
+            User user = new User();
+            user.setSex("男");
+            user.setUsername("张1114");
+            user.setAddress("西安");
+            user.setBirthday(new Date());
+    
+            iUserDao.insert(user);
+            sqlSession.commit();
+        }
+    
+        @Test
+        public void testUpdate(){
+            User user = new User();
+            user.setId(54);
+            user.setSex("男");
+            user.setUsername("张1114-1");
+            user.setAddress("上海");
+            user.setBirthday(new Date());
+            iUserDao.update(user);
+            sqlSession.commit();
+        }
+    
+        @Test
+        public void testDeleteById(){
+            iUserDao.deleteById(54);
+            sqlSession.commit();
+        }
+    
+        @Test
+        public void testSelectById(){
+            User user = iUserDao.selectById(53);
+            System.out.println(user);
+        }
+    
+        @Test
+        public void testSelectByName(){
+            List<User> users = iUserDao.selectByName("%王%");
+            for(User each : users){
+                System.out.println(each);
+            }
+        }
+    
+        @Test
+        public void testSelectCount(){
+            int i = iUserDao.selectCount();
+            System.out.println(i);
+        }TestAnnotation.java
+    ```
+
+*   
 
 *   
