@@ -311,4 +311,4 @@
 同Servlet一样，使用注解会更加方便
 
 *   顺便复习新建项目，首先建立空白Maven项目，在pom.xml文件中指定mybatis、mysql-connector、junit和log4j包的导入
-*   
+*   ./src/main/resources/下新建SqlMapConfig.xml
