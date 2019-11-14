@@ -391,7 +391,14 @@
             for (User each : users) {
                 System.out.println(each);
             }
-        }/**/
+        }/*User{id=41, username='老王', address='北京', sex='男', birthday=Tue Feb 27 17:47:08 CST 2018}
+    User{id=42, username='小二王', address='北京金燕龙', sex='女', birthday=Fri Mar 02 15:09:37 CST 2018}
+    User{id=43, username='小二王', address='北京金燕龙', sex='女', birthday=Sun Mar 04 11:34:34 CST 2018}
+    User{id=45, username='传智播客', address='北京金燕龙', sex='男', birthday=Sun Mar 04 12:04:06 CST 2018}
+    User{id=46, username='老王', address='北京', sex='男', birthday=Wed Mar 07 17:37:26 CST 2018}
+    User{id=48, username='小马宝莉', address='北京修正', sex='女', birthday=Thu Mar 08 11:44:00 CST 2018}
+    User{id=51, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:01:20 CST 2019}
+    User{id=53, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:02:48 CST 2019}*/
     
         @Test
         public void testInsert(){
