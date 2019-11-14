@@ -282,7 +282,7 @@
     }
     ```
 
-*   SQL语句原始运行结果![image-20191112210113677](image-20191112210113677.png)
+*   `SQL`语句原始运行结果![image-20191112210113677](image-20191112210113677.png)
 
 *   测试代码
 
@@ -308,11 +308,11 @@
 
 ## 使用注解
 
-同Servlet一样，使用注解会更加方便
+同`Servlet`一样，使用注解会更加方便
 
-*   顺便复习新建项目，首先建立空白Maven项目，在pom.xml文件中指定mybatis、mysql-connector、junit和log4j包的导入
+*   顺便复习新建项目，首先建立空白`Maven`项目，在`pom.xml`文件中指定`mybatis`、`mysql-connector`、`junit`和`log4j`包的导入
 
-*   ./src/main/resources/下新建SqlMapConfig.xml，配置连接mysql的各项参数
+*   `./src/main/resources/`下新建`SqlMapConfig.xml`，配置连接`mysql`的各项参数
 
     ```xml
     <configuration>
@@ -337,7 +337,7 @@
     </configuration>
     ```
 
-*   同时，jdbcConfig.properties文件中应该存储以下内容
+*   同时，`jdbcConfig.properties`文件中应该存储以下内容
 
     ```properties
     jdbc.driver=com.mysql.jdbc.Driver
@@ -346,7 +346,7 @@
     jdbc.password=
     ```
 
-*   建立用户类User以及其接口IUserDao
+*   建立用户类`User`以及其接口`IUserDao`
 
     ```java
     public class User {
@@ -382,7 +382,7 @@
     }
     ```
 
-*   ./src/test/java/TestAnnotation.java
+*   `./src/test/java/TestAnnotation.java`
 
     ```java
     	@Test
