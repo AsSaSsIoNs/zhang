@@ -410,7 +410,8 @@
     
             iUserDao.insert(user);
             sqlSession.commit();
-        }
+        }/*执行之后再次selectAll，多出如下内容
+        User{id=55, username='张1114', address='西安', sex='男', birthday=Thu Nov 14 20:56:10 CST 2019}*/
     
         @Test
         public void testUpdate(){
@@ -422,7 +423,7 @@
             user.setBirthday(new Date());
             iUserDao.update(user);
             sqlSession.commit();
-        }
+        }/**/
     
         @Test
         public void testDeleteById(){
