@@ -316,8 +316,8 @@
 
     ```xml
     <configuration>
-        <properties resource="jdbcConfig.properties"></properties>
-        <typeAliases><!--    <mappers>-->
+        <properties resource="jdbcConfig.properties"></properties><!--指定连接配置文件-->
+        <typeAliases><!--类型别名，用来直接使用类名而不是全限定类名-->
             <package name="com.itheima.domain"></package>
         </typeAliases>
         <environments default="mysql">
@@ -328,13 +328,22 @@
                     <property name="url" value="${jdbc.url}"></property>
                     <property name="username" value="${jdbc.username}"></property>
                     <property name="password" value="${jdbc.password}"></property>
-                </dataSource>
+                </dataSource><!--并没有直接设置而是使用了properties文件中规定的参数-->
             </environment>
         </environments>
-        <mappers>
+        <mappers><!--规定了使用dao开发的包-->
             <package name="com.itheima.dao"></package>
         </mappers>
     </configuration>
     ```
 
-    
+*   同时，jdbcConfig.properties文件中应该存储以下内容
+
+    ```properties
+    jdbc.driver=com.mysql.jdbc.Driver
+    jdbc.url=jdbc:mysql://localhost:3306/test
+    jdbc.username=root
+    jdbc.password=
+    ```
+
+*   建立yo
