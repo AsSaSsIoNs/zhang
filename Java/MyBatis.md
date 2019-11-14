@@ -348,17 +348,40 @@
 
 *   建立用户类User以及其接口IUserDao
 
-    ```
+    ```java
     public class User {
         private Integer id;
         private String username;
         private String address;
         private String sex;
         private Date birthday;
+        /*Getters Setters toString*/
     }
     
+    public interface IUserDao {/*接口中使用了注解来明确此方法使用哪个sql*/
+        @Select(value = "Select * from user")
+        List<User> findAll();
+    
+        @Insert(value = "insert into user(username, address, sex, birthday) values(#{username}, #{address}, #{sex}, #{birthday})")
+        void insert(User user);
+    
+        @Update(value = "update user set username=#{username}, sex=#{sex}, birthday=#{birthday}, address=#{address} where id=#{id}")
+        void update(User user);
+    
+        @Delete(value = "delete from user where id=#{id}")
+        void deleteById(Integer id);
+    
+        @Select(value = "select * from user where id=#{id}")
+        User selectById(Integer id);
+    
+        @Select(value = "select * from user where username like #{username}")
+        List<User> selectByName(String username);
+    
+        @Select(value = "select count(*) from user")
+        int selectCount();
+    }
     ```
 
-    
+*   ./src/test
 
 *   
