@@ -412,24 +412,23 @@
             sqlSession.commit();
         }/*执行之后再次selectAll，多出如下内容
         User{id=55, username='张1114', address='西安', sex='男', birthday=Thu Nov 14 20:56:10 CST 2019}*/
-    
         @Test
         public void testUpdate(){
             User user = new User();
-            user.setId(54);
+            user.setId(55);
             user.setSex("男");
             user.setUsername("张1114-1");
             user.setAddress("上海");
             user.setBirthday(new Date());
             iUserDao.update(user);
             sqlSession.commit();
-        }/**/
-    
+        }/*id为55的记录发生变化
+        User{id=55, username='张1114-1', address='上海', sex='男', birthday=Thu Nov 14 20:57:29 CST 2019}*/
         @Test
         public void testDeleteById(){
-            iUserDao.deleteById(54);
+            iUserDao.deleteById(55);
             sqlSession.commit();
-        }
+        }/*运行后id=55的*/
     
         @Test
         public void testSelectById(){
