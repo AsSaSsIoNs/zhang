@@ -311,4 +311,30 @@
 同Servlet一样，使用注解会更加方便
 
 *   顺便复习新建项目，首先建立空白Maven项目，在pom.xml文件中指定mybatis、mysql-connector、junit和log4j包的导入
-*   ./src/main/resources/下新建SqlMapConfig.xml
+
+*   ./src/main/resources/下新建SqlMapConfig.xml，配置连接mysql的各项参数
+
+    ```xml
+    <configuration>
+        <properties resource="jdbcConfig.properties"></properties>
+        <typeAliases><!--    <mappers>-->
+            <package name="com.itheima.domain"></package>
+        </typeAliases>
+        <environments default="mysql">
+            <environment id="mysql">
+                <transactionManager type="JDBC"></transactionManager>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${jdbc.driver}"></property>
+                    <property name="url" value="${jdbc.url}"></property>
+                    <property name="username" value="${jdbc.username}"></property>
+                    <property name="password" value="${jdbc.password}"></property>
+                </dataSource>
+            </environment>
+        </environments>
+        <mappers>
+            <package name="com.itheima.dao"></package>
+        </mappers>
+    </configuration>
+    ```
+
+    
