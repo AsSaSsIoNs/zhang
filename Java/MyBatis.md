@@ -382,7 +382,7 @@
     }
     ```
 
-*   ./src/test/java/
+*   ./src/test/java/TestAnnotation.java
 
     ```java
     	@Test
@@ -436,19 +436,17 @@
         }/*User{id=53, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:02:48 CST 2019}*/
         @Test
         public void testSelectByName(){
-            List<User> users = iUserDao.selectByName("%王%");
+            List<User> users = iUserDao.selectByName("%王%");//模糊查询
             for(User each : users){
                 System.out.println(each);
             }
-        }
-    
+        }/*User{id=41, username='老王', address='北京', sex='男', birthday=Tue Feb 27 17:47:08 CST 2018}
+    User{id=42, username='小二王', address='北京金燕龙', sex='女', birthday=Fri Mar 02 15:09:37 CST 2018}
+    User{id=43, username='小二王', address='北京金燕龙', sex='女', birthday=Sun Mar 04 11:34:34 CST 2018}
+    User{id=46, username='老王', address='北京', sex='男', birthday=Wed Mar 07 17:37:26 CST 2018}*/
         @Test
         public void testSelectCount(){
             int i = iUserDao.selectCount();
             System.out.println(i);
-        }TestAnnotation.java
+        }/*成功返回记录条数*/
     ```
-
-*   
-
-*   
