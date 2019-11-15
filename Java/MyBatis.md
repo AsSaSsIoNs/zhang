@@ -450,3 +450,97 @@
             System.out.println(i);
         }/*成功返回记录条数*/
     ```
+
+## 注解开发一对多
+
+顺带解决类属性与数据库列名不一致的问题
+
+*   ```java
+    public class Account {
+        private Integer id;
+        private Integer uid;
+        private Double money;
+        private User user;//一个用户可以有多个账户，但是一个账户只能对应一个用户
+        /*Getters Setters toString*/
+    }
+    ```
+
+    ```java
+    public class User {
+    	private Integer userId;
+        private String userName;
+        private String userAddress;
+        private String userSex;
+        private Date userBirthday;
+        private List<Account> accounts;//一个用户可以有多个账户，所以用List
+        /*Getters Setters toString*/
+        }
+    ```
+
+    ```java
+    public interface IAccountDao {
+        @Select(value="select * from account")
+        @Results(id = "AccountMap", value = {
+                @Result(id = true, column = "id", property = "id"),
+                @Result(column = "uid", property = "uid"),
+                @Result(column = "money", property = "money"),
+                @Result(property = "user", column = "uid", one = @One(select="com.itheima.dao.IUserDao.selectById", fetchType= FetchType.EAGER))
+        })
+    	public List<Account> selectAll();
+        /*Results注解用来解决列名问题，其中，
+        Result注解有一个必须声明id为true，用来表示真正的键值，column和property分别表示类属性名和数据库列名
+        One注解表示一对多的关系，我们这个select选择了account，每个account只能对应一个user，故使用了one来表示选取user中的一个，也就是one*/
+        /*这个是one注解中指定的全限定方法，使用这个就可以选择相应的user
+        public List<Account> selectAll();
+        @Select(value = "select * from account where uid=#{id}")
+        List<Account> selectAccountByUid(Integer id);
+        */
+    }
+    ```
+
+    ```java
+    @Select(value = "select * from user")
+        @Results(id = "UserMap", value = {
+                @Result(id = true, column = "id", property = "userId"),
+                @Result(column = "username", property = "userName"),
+                @Result(column = "address", property = "userAddress"),
+                @Result(column = "sex", property = "userSex"),
+                @Result(column = "birthday", property = "userBirthday"),
+                @Result(property = "accounts", column = "id", many = @Many(select = "com.itheima.dao.IAccountDao.selectAccountByUid", fetchType = FetchType.LAZY))/*同上面的一样，这个注解中是选择user，account为附属，而他们是多对一的关系，所以使用many注解*/
+        })
+        List<User> findAll();
+    /*指定的全限定方法
+        @Select(value = "select * from account where uid=#{id}")
+        List<Account> selectAccountByUid(Integer id);
+    */
+    ```
+
+    ```java
+    	@Test
+        public void testSelectAll(){
+            List<Account> accounts = iAccountDao.selectAll();
+            for(Account each : accounts){
+                System.out.println(each);
+                System.out.println("*********账户信息**********");
+                System.out.println(each.getUser());
+            }
+        }
+    ```
+
+    ![image-20191115130436907](image-20191115130436907.png)
+
+    ```java
+    @Test
+    public void testSelectAll() throws Exception {
+        List<User> users = iUserDao.findAll();
+        for (User each : users) {
+            System.out.println(each);
+            System.out.println(each.getAccounts());
+            System.out.println("************************************************");
+            System.out.println("************************************************");
+        }
+    }
+    ```
+
+    ![image-20191115130506202](image-20191115130506202.png)
+
