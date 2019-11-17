@@ -91,8 +91,7 @@ public class InstanceFactory {
         AccountService accountService = (AccountService) ac.getBean("accountService");
     }/*结果为
     执行了InstanceFactory
-	创建了AccountServiceImpl...
-*/
+	创建了AccountServiceImpl...*/
 ```
 
 ### StaticFactory
@@ -106,8 +105,8 @@ public class StaticFactory {
 }
 ```
 
-```java
- <bean id="accountService" class="com.itheima.factory.StaticFactory" factory-method="getAccountService"></bean>
+```xml
+ <bean id="accountService" class="com.itheima.factory.StaticFactory" factory-method="getAccountService"></bean><!--静态工厂不需要手动创建-->
 ```
 
 ```java
@@ -115,6 +114,8 @@ public class StaticFactory {
     public void test2(){
         ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
         AccountService accountService = (AccountService) ac.getBean("accountService");
-    }/**/
+    }/*结果为
+    执行了StaticFactory
+	创建了AccountServiceImpl...*/
 ```
 
