@@ -174,3 +174,19 @@ public class AccountServiceImpl2 implements AccountService {
 }
 ```
 
+```xml
+    <bean id="accountService2" class="com.itheima.service.impl.AccountServiceImpl2">
+        <property name="name" value="张一"></property>
+        <property name="age" value="13"></property>
+        <property name="birthday" ref="now"></property>
+    </bean>
+```
+
+```java
+    @Test
+    public void testSetter(){
+        accountService = (AccountService) applicationContext.getBean("accountService2");
+        System.out.println(accountService);
+    }/*AccountServiceImpl2{name='张一', age=13, birthday=Sun Nov 17 11:20:39 CST 2019}*/
+```
+
