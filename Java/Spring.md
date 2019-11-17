@@ -79,7 +79,8 @@ public class InstanceFactory {
 }/*这个不是真正的Factory，只是用来模拟*/
 ```
 
-```
-
+```xml
+    <bean id="instanceFactory" class="com.itheima.factory.InstanceFactory"></bean>
+    <bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"></bean>
 ```
 
