@@ -151,6 +151,10 @@ public class AccountServiceImpl implements AccountService {
 ```
 
 ```java
+@Before
+public void init(){
+    applicationContext = new ClassPathXmlApplicationContext("bean.xml");
+}
 @Test
 public void testSDI(){
     accountService = (AccountService) applicationContext.getBean("accountService");
