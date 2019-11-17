@@ -135,3 +135,12 @@ public class AccountServiceImpl implements AccountService {
 }
 ```
 
+```xml
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+        <constructor-arg name="name" value="test"></constructor-arg>
+        <constructor-arg name="age" value="13"></constructor-arg>
+        <constructor-arg name="birthday" ref="now"></constructor-arg>
+    </bean>    </bean>
+    <bean id="now" class="java.util.Date"></bean>
+```
+
