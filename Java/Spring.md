@@ -119,3 +119,7 @@ public class StaticFactory {
 	创建了AccountServiceImpl...*/
 ```
 
+## 依赖注入
+
+将对象的创建交给Spring
+
