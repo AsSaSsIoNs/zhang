@@ -193,3 +193,16 @@ public class AccountServiceImpl2 implements AccountService {
 
 
 ### 注入集合
+
+```java
+public class AccountServiceImpl3 implements AccountService {
+    private String[] myStrs;
+    private List<String> myList;
+    private Set<String> mySet;
+    private Map<String, String> myMap;
+    private Properties myProps;
+    public void saveAccount() {
+    }
+    /*Getters Setters toString*/
+```
+
