@@ -190,3 +190,6 @@ public class AccountServiceImpl2 implements AccountService {
     }/*AccountServiceImpl2{name='张一', age=13, birthday=Sun Nov 17 11:20:39 CST 2019}*/
 ```
 
+
+
+### 注入集合
