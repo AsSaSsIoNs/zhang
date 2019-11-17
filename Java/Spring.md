@@ -163,7 +163,14 @@ public void testSDI(){
 
 ### set注入
 
-```
-
+```java
+public class AccountServiceImpl2 implements AccountService {
+    private String name;
+    private Integer age;
+    private Date birthday;
+    public void saveAccount() {
+    }
+    /*toString Setters*/
+}
 ```
 
