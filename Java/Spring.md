@@ -126,8 +126,8 @@ public class StaticFactory {
 ### 构造函数注入
 
 
-*    ```java
-    public class AccountServiceImpl implements AccountService {
+```java
+public class AccountServiceImpl implements AccountService {
         private String name;
         private Integer age;
         private Date birthday;
@@ -139,27 +139,30 @@ public class StaticFactory {
     public interface AccountService {
         void saveAccount();
     }
-    ```
-    
-    ```xml
-        <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
-            <constructor-arg name="name" value="test"></constructor-arg>
-            <constructor-arg name="age" value="13"></constructor-arg>
-            <constructor-arg name="birthday" ref="now"></constructor-arg>
-        </bean><!--标签指定了要创建的对象，以及他的id，而constructor-arg标签则指定了他们构造函数要创建的内容，使用name-value对来确定初始化哪个属性，其中，date因为需要转换而使用了ref标签，ref类型为其他Bean类型，需要注明id-->
-        <bean id="now" class="java.util.Date"></bean>
-    ```
-    
-    ```java
-        @Test
-        public void testSDI(){
-            accountService = (AccountService) applicationContext.getBean("accountService");
-            accountService.saveAccount();
-            System.out.println(accountService.toString());
+```
+
+```xml
+<bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+        <constructor-arg name="name" value="test"></constructor-arg>
+        <constructor-arg name="age" value="13"></constructor-arg>
+        <constructor-arg name="birthday" ref="now"></constructor-arg>
+    </bean><!--标签指定了要创建的对象，以及他的id，而constructor-arg标签则指定了他们构造函数要创建的内容，使用name-value对来确定初始化哪个属性，其中，date因为需要转换而使用了ref标签，ref类型为其他Bean类型，需要注明id-->
+<bean id="now" class="java.util.Date"></bean>
+```
+
+```java
+@Test
+public void testSDI(){
+    accountService = (AccountService) applicationContext.getBean("accountService");
+    accountService.saveAccount();
+       System.out.println(accountService.toString());
         }/*
         saveAccount...
     AccountServiceImpl{name='test', age=13, birthday=Sun Nov 17 11:09:49 CST 2019}*/
-    ```
-    
+```
+
     ### set注入
+
+
+​    
 
