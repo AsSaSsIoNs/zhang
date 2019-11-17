@@ -206,3 +206,41 @@ public class AccountServiceImpl3 implements AccountService {
     /*Getters Setters toString*/
 ```
 
+```xml
+<bean id="accountService3" class="com.itheima.service.impl.AccountServiceImpl3">
+        <property name="myStrs">
+            <set>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </set>
+        </property>
+        <property name="myList">
+            <array>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </array>
+        </property>
+        <property name="mySet">
+            <list>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </list>
+        </property>
+        <property name="myMap">
+            <props>
+                <prop key="testC">ccc</prop>
+                <prop key="testD">ddd</prop>
+            </props>
+        </property>
+        <property name="myProps">
+            <map>
+                <entry key="testA" value="aaa"></entry>
+                <entry key="testB" value="BBB"></entry>
+            </map>
+        </property>
+    </bean>
+```
+
