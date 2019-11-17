@@ -29,8 +29,18 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd">
-        <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl"></bean>
-    </beans><!--</beans>-->
+        <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl"></bean><!--指定实现类，并给一个id用来标明新建的类id-->
+    </beans>
+    ```
+
+*   ```java
+        @Test
+        public void test1(){
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            AccountService accountService = (AccountService) ac.getBean("accountService");
+            System.out.println(accountService);
+        }/*创建了AccountServiceImpl...
+    com.itheima.service.impl.AccountServiceImpl@305fd85d*/
     ```
 
     
