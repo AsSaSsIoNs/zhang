@@ -97,3 +97,24 @@ public class InstanceFactory {
 
 ### StaticFactory
 
+```java
+public class StaticFactory {
+    public static AccountService getAccountService(){
+        System.out.println("执行了StaticFactory");
+        return new AccountServiceImpl();
+    }
+}
+```
+
+```java
+ <bean id="accountService" class="com.itheima.factory.StaticFactory" factory-method="getAccountService"></bean>
+```
+
+```java
+    @Test
+    public void test2(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+        AccountService accountService = (AccountService) ac.getBean("accountService");
+    }/**/
+```
+
