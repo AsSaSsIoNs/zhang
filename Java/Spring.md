@@ -68,4 +68,18 @@
     创建了AccountServiceImpl...*/
 ```
 
-### 
+### InstanceFactory
+
+```java
+public class InstanceFactory {
+    public AccountService getAccountService(){
+        System.out.println("执行了InstanceFactory");
+        return new AccountServiceImpl();
+    }
+}/*这个不是真正的Factory，只是用来模拟*/
+```
+
+```
+
+```
+
