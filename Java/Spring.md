@@ -143,7 +143,7 @@ public interface AccountService {
         <constructor-arg name="name" value="test"></constructor-arg>
         <constructor-arg name="age" value="13"></constructor-arg>
         <constructor-arg name="birthday" ref="now"></constructor-arg>
-    </bean><!--标签指定了要创建的对象，以及他的id，而constructor-arg标签则指定了他们构造函数要创建的内容，使用name-value对来确定初始化哪个属性，其中，date因为需要转换而使用了ref标签-->
+    </bean><!--标签指定了要创建的对象，以及他的id，而constructor-arg标签则指定了他们构造函数要创建的内容，使用name-value对来确定初始化哪个属性，其中，date因为需要转换而使用了ref标签，ref类型为其他Bean类型，需要注明id-->
     <bean id="now" class="java.util.Date"></bean>
 ```
 
