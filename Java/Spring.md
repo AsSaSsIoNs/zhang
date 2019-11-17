@@ -39,7 +39,8 @@
             ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
             AccountService accountService = (AccountService) ac.getBean("accountService");
             System.out.println(accountService);
-        }/*创建了AccountServiceImpl...
+        }/*结果是
+        创建了AccountServiceImpl...
     com.itheima.service.impl.AccountServiceImpl@305fd85d*/
     ```
 
