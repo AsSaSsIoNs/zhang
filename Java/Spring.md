@@ -59,7 +59,12 @@
 /*xml文件保持原样*/
 ```
 
-```
-
+```java
+    @Test
+    public void test2(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+        AccountService accountService = (AccountService) ac.getBean("accountService");
+    }/*结果为
+    创建了AccountServiceImpl...*/
 ```
 
