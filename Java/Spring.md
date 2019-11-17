@@ -52,3 +52,9 @@
 
 ### 构造方法
 
+```java
+    public AccountServiceImpl() {
+        System.out.println("创建了AccountServiceImpl...");
+    }/*AccountService类中追加的无参构造*/
+```
+
