@@ -123,3 +123,15 @@ public class StaticFactory {
 
 将对象的创建交给Spring
 
+```java
+public class AccountServiceImpl implements AccountService {
+    private String name;
+    private Integer age;
+    private Date birthday;
+    public void saveAccount() {
+        System.out.println("saveAccount...");
+    }
+	/*Constructor toString*/
+}
+```
+
