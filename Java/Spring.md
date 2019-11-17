@@ -244,3 +244,11 @@ public class AccountServiceImpl3 implements AccountService {
     </bean>
 ```
 
+```java
+    @Test
+    public void testSets(){
+        accountService = (AccountService) applicationContext.getBean("accountService3");
+        System.out.println(accountService);
+    }/*AccountServiceImpl3{myStrs=[AAA, BBB, CCC], myList=[AAA, BBB, CCC], mySet=[AAA, BBB, CCC], myMap={testD=ddd, testC=ccc}, myProps={testA=aaa, testB=BBB}}*/
+```
+
