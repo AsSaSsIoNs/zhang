@@ -155,14 +155,15 @@ public class AccountServiceImpl implements AccountService {
 public void testSDI(){
     accountService = (AccountService) applicationContext.getBean("accountService");
     accountService.saveAccount();
-       System.out.println(accountService.toString());
-        }/*
+    System.out.println(accountService.toString());
+}/*
         saveAccount...
     AccountServiceImpl{name='test', age=13, birthday=Sun Nov 17 11:09:49 CST 2019}*/
 ```
 
-    ### set注入
+### set注入
 
+```
 
-​    
+```
 
