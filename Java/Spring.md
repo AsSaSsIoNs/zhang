@@ -81,6 +81,7 @@ public class InstanceFactory {
 
 ```xml
     <bean id="instanceFactory" class="com.itheima.factory.InstanceFactory"></bean>
-    <bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"></bean>
+    <bean id="accountService" factory-bean="instanceFactory" factory-method="getAccountService"></bean><!--指定了先创建InstanceFactory,再通过这个工程来创建，标签用来指定是哪个工厂，以及创建Bean的方法-->
 ```
 
+继续使用test2方法，结果为
