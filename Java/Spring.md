@@ -256,3 +256,89 @@ public class AccountServiceImpl3 implements AccountService {
     }/*AccountServiceImpl3{myStrs=[AAA, BBB, CCC], myList=[AAA, BBB, CCC], mySet=[AAA, BBB, CCC], myMap={testD=ddd, testC=ccc}, myProps={testA=aaa, testB=BBB}}*/
 ```
 
+## 使用注解
+
+```java
+@Repository("accountDao")//参数与注入的类名保持一致，以便于自动注入
+public class AccountDaoImpl implements IAccountDao{
+    public  void saveAccount(){
+        System.out.println("保存了账户1");
+    }
+}
+
+@Service("accountService")//一旦有这个注解就会执行这里面的方法
+public class AccountServiceImpl implements IAccountService {
+    @Autowired//使用自动注入
+    private IAccountDao accountDao = null;
+    public void  saveAccount(){
+        accountDao.saveAccount();
+    }
+}
+
+public static void main(String[] args) {
+        ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+        IAccountService as  = (IAccountService)ac.getBean("accountService");//accountService表示的是要执行哪个service层的方法，注解中可以看到
+        as.saveAccount();
+        ac.close();
+    }
+/*结果为
+保存了账户1*/
+/*
+但是当出现要注入多个对象时，自动注入就会起到冲突，例如
+*/
+@Repository("accountDao2")
+public class AccountDaoImpl2  implements IAccountDao {
+    public  void saveAccount(){
+        System.out.println("保存了账户2");
+    }
+}
+/*再次增加一个Repository时，如果要指定Service创建这个对象，那么就必须改为这样*/
+@Service("accountService")
+public class AccountServiceImpl implements IAccountService {
+    @Autowired
+    private IAccountDao accountDao2 = null;
+    public void  saveAccount(){
+        accountDao2.saveAccount();
+    }
+}/*显得比较麻烦，那么解决方法如下*/
+@Service("accountService")
+public class AccountServiceImpl implements IAccountService {
+    @Autowired
+    @Qualifier("accountDao2")
+    private IAccountDao accountDao = null;
+    public void  saveAccount(){
+        accountDao.saveAccount();
+    }
+}/*连续使用AutoWired和Qualifier注解，其中Qualifier注解的参数用来设置id，所以要创建哪个Repository直接将其设置为类名即可，或者也可以使用Resource注解*/
+    @Resource(name = "accountDao2")
+    private IAccountDao accountDao = null;
+/*直接指定属性name值为要创建的类名*/
+/*还有关于作用范围的注解
+scope preDestroy postConstruct*/
+
+@Scope(value = "prototype")//value默认为singleton，可以取值为singleton或prototype，表示单例或多例模式
+public class AccountServiceImpl implements IAccountService
+IAccountService as  = (IAccountService)ac.getBean("accountService");
+IAccountService as2  = (IAccountService)ac.getBean("accountService");
+System.out.println(as == as2);//false 如果value设置为singleton则为true
+
+public class AccountServiceImpl implements IAccountService {
+    @Resource(name = "accountDao2")
+    private IAccountDao accountDao = null;
+    @PostConstruct
+    public void  init(){
+        System.out.println("init...");
+    }
+    @PreDestroy
+    public void  destroy(){
+        System.out.println("destroy...");
+    }
+    public void  saveAccount(){
+        accountDao.saveAccount();
+    }
+}/*结果为
+init...
+保存了账户2
+destroy...*/
+```
+
