@@ -342,3 +342,194 @@ init...
 destroy...*/
 ```
 
+## 案例：从零使用spring/c3p0实现前后交互
+
+*   开始构建一个maven工程，编辑pom文件引入spring-context/commons-dbutils/mysql-connector/c3p0/junit
+
+*   交互的数据库是这样的![image-20191120225334383](image-20191120225334383.png)
+
+*   创建对应的实体类`./src/main/java/com/itheima/domain/Account.java`
+
+    ```java
+    public class Account {
+        private Integer id;
+        private String name;
+        private Float money;
+        /*Getters Setters toString*/
+    }
+    ```
+
+*   配置service层`./src/main/java/com/itheima/service/IAccountService.java`
+
+    ```java
+    public interface IAccountService {
+        List<Account> findAllAccount();
+        Account findAccountById(Integer accountId);
+        void saveAccount(Account account);
+        void updateAccount(Account account);
+        void deleteAccount(Integer accountId);
+    }
+    ```
+
+    `./src/main/java/com/itheima/service/impl/AccountService.java`
+
+    ```java
+    public class AccountServiceImpl implements IAccountService {
+        private IAccountDao accountDao;
+        public void setAccountDao(IAccountDao accountDao) {
+            this.accountDao = accountDao;
+        }
+        public List<Account> findAllAccount() {
+            return accountDao.findAllAccount();
+        }
+        public Account findAccountById(Integer accountId) {
+            return accountDao.findAccountById(accountId);
+        }
+        public void saveAccount(Account account) {
+            accountDao.saveAccount(account);
+        }
+        public void updateAccount(Account account) {
+            accountDao.updateAccount(account);
+        }
+        public void deleteAccount(Integer accountId) {
+            accountDao.deleteAccount(accountId);
+        }
+    }
+    ```
+
+*   配置dao层`./src/main/java/com/itheima/dao/IAccountDao.java`
+
+    ```java
+    public interface IAccountDao {
+        List<Account> findAllAccount();
+        Account findAccountById(Integer accountId);
+        void saveAccount(Account account);
+        void updateAccount(Account account);
+        void deleteAccount(Integer accountId);
+    }
+    ```
+
+    `./src/main/java/com/itheima/dao/impl/AccountDaoImpl.java`
+
+    ```java
+    public class AccountDaoImpl implements IAccountDao {
+        private QueryRunner queryRunner;
+        public void setQueryRunner(QueryRunner queryRunner) {
+            this.queryRunner = queryRunner;
+        }
+        public List<Account> findAllAccount() {
+            try{
+                return queryRunner.query("select * from account",new BeanListHandler<Account>(Account.class));
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public Account findAccountById(Integer accountId) {
+            try {
+                return queryRunner.query("select * from account where id=?", new BeanHandler<Account>(Account.class), accountId);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void saveAccount(Account account) {
+            try {
+                queryRunner.update("insert into account(name, money) values (?, ?)", account.getName(), account.getMoney());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void updateAccount(Account account) {
+            try {
+                queryRunner.update("update account set name=?, money=? where id=?", account.getName(), account.getMoney(), account.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void deleteAccount(Integer accountId) {
+            try {
+                queryRunner.update("delete from account where id=?", accountId);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }/*/impl/AccountDaoImpl.java*/
+    ```
+
+*   配置参数`./src/main/resources/bean.xml`
+
+    ```xml
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+            <property name="accountDao" ref="accountDao"></property>
+        </bean>
+        <bean id="accountDao" class="com.itheima.dao.impl.AccountDaoImpl">
+            <property name="queryRunner" ref="queryRunner"></property>
+        </bean>
+        <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+            <constructor-arg name="ds" ref="dataSource"></constructor-arg>
+        </bean>
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+            <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test1120"></property>
+            <property name="user" value="root"></property>
+            <property name="password" value=""></property>
+        </bean>
+    ```
+
+*   测试类`./src/test/java/com/itheima/AccountServiceTest.java`
+
+    ```java
+    public class AccountServiceTest {
+        @Test
+        public void testFindAllAccount() {
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            List<Account> allAccount = accountService.findAllAccount();
+            for(Account each : allAccount){
+                System.out.println(each);
+            }
+        }/*
+        Account{id=1, name='aaa', money=1000.0}
+    Account{id=2, name='bbb', money=2000.0}
+    Account{id=3, name='ccc', money=3000.0}
+    Account{id=5, name='Zhang', money=1234.0}*/
+        @Test
+        public void testFindAccountById() {
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            Account accountById = accountService.findAccountById(5);
+            System.out.println(accountById);
+        }/*Account{id=5, name='Zhang', money=1234.0}
+        */
+        @Test
+        public void testSaveAccount() {
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            Account account = new Account();
+            account.setMoney(1234f);
+            account.setName("Zhang");
+            accountService.saveAccount(account);
+        }/*Account{id=1, name='aaa', money=1000.0}
+    Account{id=2, name='bbb', money=2000.0}
+    Account{id=3, name='ccc', money=2345.0}
+    Account{id=5, name='Zhang', money=1234.0}*/
+        @Test
+        public void testUpdateAccount() {
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            Account accountById = accountService.findAccountById(4);
+            accountById.setMoney(2345f);
+            accountService.updateAccount(accountById);
+        }/*Account{id=1, name='aaa', money=1000.0}
+    Account{id=2, name='bbb', money=2000.0}
+    Account{id=3, name='ccc', money=2345.0}
+    Account{id=5, name='Zhang', money=1234.0}*/
+        @Test
+        public void testDeleteAccount() {
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            accountService.deleteAccount(4);
+        }/*Account{id=1, name='aaa', money=1000.0}
+    Account{id=2, name='bbb', money=2000.0}
+    Account{id=3, name='ccc', money=2345.0}*/
+    }
+    ```
