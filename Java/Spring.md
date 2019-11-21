@@ -342,6 +342,8 @@ init...
 destroy...*/
 ```
 
+>   第12周
+
 ## 案例：从零使用spring/c3p0实现前后交互
 
 *   开始构建一个maven工程，编辑pom文件引入spring-context/commons-dbutils/mysql-connector/c3p0/junit
@@ -533,3 +535,158 @@ destroy...*/
     Account{id=3, name='ccc', money=2345.0}*/
     }
     ```
+    
+    ### 使用注解实现
+    
+    `./src/main/resource/bean_anno.xml`
+    
+    ```xml
+        <context:component-scan base-package="com.itheima"></context:component-scan>
+        <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+        <constructor-arg name="ds" ref="dataSource"></constructor-arg>
+        </bean>
+    
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+            <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test1120"></property>
+            <property name="user" value="root"></property>
+            <property name="password" value=""></property>
+        </bean><!--相比于上面的少了accountService和accountDao两个bean的实现-->
+    ```
+    
+    `./src/main/java/com/itheima/service/impl/AccountServiceImpl.java`
+    
+    ```java
+    @Service(value = "accountService")//标明是Service的bean对象，名为accountService
+    public class AccountServiceImpl implements IAccountService {
+        @Autowired
+        private AccountDaoImpl accountDao;
+    //    由于是autowired自动注入所以不用setter
+    //    public void setAccountDao(AccountDao accountDao) {
+    //        this.accountDao = accountDao;
+    //    }
+        public List<Account> selectAll() {
+            return accountDao.selectAll();
+        }
+    }
+    ```
+    
+    `./src/main/java/com/itheima/dao/impl/AccountDaoImpl.java`
+    
+    ```java
+    @Repository(value = "accountDao")//标明是repository对象，名为accountDao
+    public class AccountDaoImpl implements IAccountDao {
+        @Autowired
+        private QueryRunner queryRunner ;
+    /*由于是autowired自动注入所以不用setter
+        public void setQueryRunner(QueryRunner queryRunner) {
+            this.queryRunner = queryRunner;
+        }
+    */
+        public List<Account> selectAll() {
+            try {
+                return queryRunner.query("select * from account", new BeanListHandler<Account>(Account.class));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    ```
+    
+    `./src/test/java/com/itheima/TestSpring.java`
+    
+    ```java
+    public class TestSpring {
+        @Test
+        public void testSelectAllAnno(){
+            ApplicationContext ac = new ClassPathXmlApplicationContext("bean_anno.xml");
+            IAccountService accountService = ac.getBean("accountService", IAccountService.class);
+            List<Account> accounts = accountService.selectAll();
+            for(Account each : accounts){
+                System.out.println(each);
+            }
+        }/*Account{id=1, name='aaa', moneyh=1000.0}
+    Account{id=2, name='bbb', moneyh=2000.0}
+    Account{id=3, name='ccc', moneyh=2345.0}*/
+    }
+    ```
+    
+    ## 使用新注解
+    
+    新建两个类
+    
+    `./src/main/java/com/itheima/config/SpringConfiguration.java`
+    
+    ```java
+    @ComponentScan(basePackages = "com.itheima")
+    @Import(JDBCConfiguration.class)
+    @PropertySource("classpath:jdbcConfig.properties")
+    public class SpringConfiguration {/**/
+    }
+    ```
+    
+    `./src/main/java/com/itheima/config/JDBCCOnfiguration.java`
+    
+    ```java
+    public class JDBCConfiguration {
+        @Value("${jdbc.driver}")
+        private String driver;
+        @Value("${jdbc.url}")
+        private String url;
+        @Value("${jdbc.username}")
+        private String username;
+        @Value("${jdbc.password}")
+        private String password;
+        @Bean(name = "queryRunner")
+        @Scope("prototype")
+        public QueryRunner createQueryRunner(DataSource dataSource){
+            return new QueryRunner(dataSource);
+        }
+        @Bean(name = "dataSource")
+        public DataSource createDataSource(){
+            try{
+                ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+                comboPooledDataSource.setDriverClass(driver);
+                comboPooledDataSource.setJdbcUrl(url);
+                comboPooledDataSource.setUser(username);
+                comboPooledDataSource.setPassword(password);
+                return comboPooledDataSource;
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    ```
+    
+    `./src/main/resources/jdbcConfig.properties`
+    
+    ```properties
+    jdbc.driver=com.mysql.jdbc.Driver
+    jdbc.url=jdbc:mysql://localhost:3306/test1120
+    jdbc.username=root
+    jdbc.password=
+    ```
+    
+    还可以使用Spring与JUnit的结合Runner来运行单元测试
+    
+    `./src/test/java/com/itheima/TestSpring.java`
+    
+    ```java
+    @RunWith(SpringJUnit4ClassRunner.class)
+    @ContextConfiguration(classes = SpringConfiguration.class)
+    public class TestSpring {
+        @Autowired
+        private IAccountService accountService;//使用了结合的Runner才能确保Autowired注解正常注入
+        @Test
+        public void testSelectAllAnno(){/*不需要再繁琐的手动读取xml等操作*/
+            List<Account> accounts = accountService.selectAll();
+            for(Account each : accounts){
+                System.out.println(each);
+            }
+        }/*Account{id=1, name='aaa', moneyh=1000.0}
+    Account{id=2, name='bbb', moneyh=2000.0}
+    Account{id=3, name='ccc', moneyh=2345.0}*/
+    }
+    ```
+    
+    
