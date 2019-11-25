@@ -688,5 +688,291 @@ destroy...*/
     Account{id=3, name='ccc', moneyh=2345.0}*/
     }
     ```
-    
-    
+
+## 转账案例
+
+使用事务回滚应对异常
+
+`./src/main/java/com/itheima/domain/Account.java`
+
+```java
+public class Account {
+    private Integer id;
+    private String name;
+    private float money;
+    /*Getters Setters toString*/
+}
+```
+
+`./src/main/java/com/itheima/service/IAccountService.java`
+
+```java
+public interface IAccountService {
+    List<Account> selectAll();
+    Account selectById(Integer id);
+    void saveAccount(Account account);
+    void updateAccount(Account account);
+    void deleteAccount(Integer id);
+    Account selectByName(String name);
+    void transfer(String transferOutName, String transferInName, float transferAmount);/*转账*/
+}
+```
+
+`./src/main/java/com/itheima/service/impl/AccountServiceImpl.java`
+
+```java
+public class AccountServiceImpl implements IAccountService {
+
+    private IAccountDao iAccountDao;
+    private TransactionManager transactionManager;
+
+    public void setTransactionManager(TransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
+    public void setiAccountDao(IAccountDao iAccountDao) {
+        this.iAccountDao = iAccountDao;
+    }
+    public List<Account> selectAll() {/*...*/}
+    public Account selectById(Integer id) {/*...*/}
+    public void saveAccount(Account account) {/*...*/}
+    public void updateAccount(Account account) {/*...*/}
+    public void deleteAccount(Integer id) {/*...*/}
+    public Account selectByName(String name) {/*...*/}
+
+    public void transfer(String transferOutName, String transferInName, float transferAmount) {
+        try {
+            transactionManager.beginTransaction();
+            Account transferOuter = iAccountDao.selectByName(transferOutName);
+            Account transferIner = iAccountDao.selectByName(transferInName);
+            transferOuter.setMoney(transferOuter.getMoney() - transferAmount);
+            transferIner.setMoney(transferIner.getMoney() + transferAmount);
+            iAccountDao.updateAccount(transferIner);
+            int i = 1 / 0;/*设定异常*/
+            iAccountDao.updateAccount(transferOuter);
+            transactionManager.commit();
+        } catch (Exception e) {
+            transactionManager.rollback();
+            throw new RuntimeException(e);
+        } finally {
+            transactionManager.release();
+        }
+    }
+}
+```
+
+`./src/main/java/com/itheima/dao/IAccountDao.java`
+
+```java
+public interface IAccountDao {
+    List<Account> selectAll();
+    Account selectById(Integer id);
+    void saveAccount(Account account);
+    void updateAccount(Account account);
+    void deleteAccount(Integer id);
+    Account selectByName(String name);
+}
+```
+
+`./src/main/java/com/itheima/dao/impl/AccountDaoImpl.java`
+
+```java
+public class AccountDaoImpl implements IAccountDao {
+    private QueryRunner queryRunner;
+    private ConnectionUtils connectionUtils;
+    public void setConnectionUtils(ConnectionUtils connectionUtils) {
+        this.connectionUtils = connectionUtils;
+    }
+    public void setQueryRunner(QueryRunner queryRunner) {
+        this.queryRunner = queryRunner;
+    }
+    public List<Account> selectAll() {
+        try {
+            return queryRunner.query(connectionUtils.getThreadConnection(), "select * from account", new BeanListHandler<Account>(Account.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Account selectById(Integer id) {
+        try {
+            return queryRunner.query(connectionUtils.getThreadConnection(), "select * from account where id=?", new BeanHandler<Account>(Account.class), id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void saveAccount(Account account) {
+        try {
+            queryRunner.update(connectionUtils.getThreadConnection(), "insert into account(name, money) values (?, ?)", account.getName(), account.getMoney());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void updateAccount(Account account) {
+        try {
+            queryRunner.update(connectionUtils.getThreadConnection(), "update account set name=?, money=? where id=?", account.getName(), account.getMoney(), account.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void deleteAccount(Integer id) {
+        try {
+            queryRunner.update(connectionUtils.getThreadConnection(), "delete from account where id=?", id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Account selectByName(String name) {
+        try {
+            Account account = queryRunner.query(connectionUtils.getThreadConnection(),"select * from account where name=?", new BeanHandler<Account>(Account.class), name);
+            return account;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+
+`./src/main/java/com/itheima/utils/ConnectionUtils.java`
+
+```java
+public class ConnectionUtils {
+    private ThreadLocal<Connection> tl = new ThreadLocal<Connection>();
+    private DataSource dataSource;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+    public Connection getThreadConnection(){
+        try {
+            Connection connection = tl.get();
+            if(connection == null){
+                connection = dataSource.getConnection();
+                tl.set(connection);
+            }
+            return connection;
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    public void removeConnection(){
+        tl.remove();
+    }
+}
+```
+
+`./src/main/java/com/itheima/utils/TransactionManager.java`
+
+```java
+public class TransactionManager {
+    private ConnectionUtils connectionUtils;
+    public void setConnectionUtils(ConnectionUtils connectionUtils) {
+        this.connectionUtils = connectionUtils;
+    }
+    public void beginTransaction(){
+        try {
+            connectionUtils.getThreadConnection().setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void commit(){
+        try {
+            connectionUtils.getThreadConnection().commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void rollback(){
+        try {
+            connectionUtils.getThreadConnection().rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void release(){
+        try {
+            connectionUtils.getThreadConnection().close();
+            connectionUtils.removeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+`./src/main/resources/Beans.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="accountService" class="com.itheima.service.impl.AccountServiceImpl">
+        <property name="iAccountDao" ref="accountDao"></property>
+        <property name="transactionManager" ref="transactionManager"></property>
+    </bean>
+    <bean id="accountDao" class="com.itheima.dao.impl.AccountDaoImpl">
+        <property name="queryRunner" ref="queryRunner"></property>
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+        <constructor-arg name="ds" ref="dataSource"></constructor-arg>
+    </bean>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test1120"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value=""></property>
+    </bean>
+    <bean id="connectionUtils" class="com.itheima.utils.ConnectionUtils">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean id="transactionManager" class="com.itheima.utils.TransactionManager">
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+</beans>
+```
+
+./src/test/java/com/itheima/TestSpring.java
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:Beans.xml")
+public class TestSpring {
+    @Autowired
+    private IAccountService iAccountService = null;
+	@Test
+    public void testSelectAll(){
+        List<Account> accounts = iAccountService.selectAll();
+        for(Account each : accounts){
+            System.out.println(each);
+        }
+    }
+    @Test
+    public void testTransfer(){
+        System.out.println("************************转账前****************************");
+        testSelectAll();
+        System.out.println("*********************************************************");
+        iAccountService.transfer("aaa", "bbb", 10.0f);
+        System.out.println("************************转账后****************************");
+        testSelectAll();
+        System.out.println("*********************************************************");
+    }
+}
+/*结果为
+************************转账前****************************
+Account{id=1, name='aaa', money=960.0}
+Account{id=2, name='bbb', money=990.0}
+Account{id=3, name='ccc', money=2345.0}
+*********************************************************
+java.lang.RuntimeException: java.lang.ArithmeticException: / by zero
+Process finished with exit code -1
+
+再次查询数据库发现为
+Account{id=1, name='aaa', money=960.0}
+Account{id=2, name='bbb', money=990.0}
+Account{id=3, name='ccc', money=2345.0}
+与之前结果一致，说明使用了事务，当出现异常时回滚*/
+```
+
