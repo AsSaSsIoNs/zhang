@@ -982,7 +982,24 @@ Account{id=3, name='ccc', money=2345.0}
 
 
 
-*   ./src/main/java/com/itheima/utils
+*   ./src/main/java/com/itheima/utils/Logger.java
+
+    ```java
+    public class Logger {
+        public void beforePrintLog(){/*前置通知*/
+            System.out.println("Logger.beforePrintLog...");
+        }
+        public void afterReturningPrintLog(){/*后置通知*/
+            System.out.println("Logger.afterReturningPrintLog...");
+        }
+        public void afterThrowingPrintLog(){/*异常通知*/
+            System.out.println("Logger.afterThrowingPrintLog...");
+        }
+        public void afterPrintLog(){/*最终通知*/
+            System.out.println("Logger.afterPrintLog...");
+        }
+    }
+    ```
 
 *   在./src/main/resources/Beans.xml中添加下面的数据
 
@@ -998,7 +1015,7 @@ Account{id=3, name='ccc', money=2345.0}
     </aop:config>
     ```
 
-    
+    *   
 
 
 
