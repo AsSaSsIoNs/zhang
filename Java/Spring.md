@@ -980,3 +980,4 @@ Account{id=3, name='ccc', money=2345.0}
 
 ## 使用通知
 
+在./src/main/resources/Beans.xml中添加下面的
