@@ -1025,8 +1025,7 @@ Account{id=3, name='ccc', money=2345.0}
         Logger.beforePrintLog...
     	Logger.afterReturningPrintLog...
     	Logger.afterPrintLog...
-    	由于并没有异常所以没有异常通知
-        */
+    	由于并没有异常所以没有异常通知*/
     ```
 
 *   使用环绕通知，在Logger类添加如下内容
@@ -1046,7 +1045,7 @@ Account{id=3, name='ccc', money=2345.0}
             } finally {
                 System.out.println("Logger.aroundPringLog...After");
             }
-        }
+        }/*这时，写在哪个位置上就是哪个通知*/
     ```
 
 *   改写Beans.xml
@@ -1070,7 +1069,10 @@ Account{id=3, name='ccc', money=2345.0}
             ApplicationContext applicationContext = new ClassPathXmlApplicationContext("Beans.xml");
             IAccountService iAccountService = (IAccountService) applicationContext.getBean("accountService");
             List<Account> accounts = iAccountService.selectAll();
-        }
+        }/*
+        Logger.aroundPringLog...Before
+    	Logger.aroundPringLog...AfterReturning
+    	Logger.aroundPringLog...After*/
     ```
 
     
