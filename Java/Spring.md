@@ -1015,7 +1015,18 @@ Account{id=3, name='ccc', money=2345.0}
     </aop:config>
     ```
 
-    *   
+*   ```java
+    	@Test
+        public void testAop(){
+            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("Beans.xml");
+            IAccountService iAccountService = (IAccountService) applicationContext.getBean("accountService");
+            List<Account> accounts = iAccountService.selectAll();
+        }/*
+        
+        */
+    ```
+
+    
 
 
 
