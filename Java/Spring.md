@@ -1106,6 +1106,54 @@ Account{id=3, name='ccc', money=2345.0}
     </beans>
     ```
 
+    ./src/main/java/com/itheima/utils/Logger.java
+
+    ```java
+    @Component("logger")
+    @Aspect
+    public class Logger {
+        @Pointcut("execution(* com.itheima.service.impl.*.*(..))")
+        private void pt1(){}
+    
+        @Before("pt1()")
+        public void beforePrintLog(){/*前置通知*/
+            System.out.println("Logger.beforePrintLog...");
+        }
+    
+        @AfterReturning("pt1()")
+        public void afterReturningPrintLog(){/*后置通知*/
+            System.out.println("Logger.afterReturningPrintLog...");
+        }
+    
+        @AfterThrowing("pt1()")
+        public void afterThrowingPrintLog(){/*异常通知*/
+            System.out.println("Logger.afterThrowingPrintLog...");
+        }
+    
+        @After("pt1()")
+        public void afterPrintLog(){/*最终通知*/
+            System.out.println("Logger.afterPrintLog...");
+        }
+    
+        public Object aroundPringLog(ProceedingJoinPoint proceedingJoinPoint){
+            Object returnValue = null;
+            try {
+                Object[] args = proceedingJoinPoint.getArgs();
+                System.out.println("Logger.aroundPringLog...Before");
+                proceedingJoinPoint.proceed(args);
+                int i = 1/0;
+                System.out.println("Logger.aroundPringLog...AfterReturning");
+                return returnValue;
+            } catch (Throwable throwable) {
+                System.out.println("Logger.aroundPringLog...AfterThrowing");
+                throw new RuntimeException(throwable);
+            } finally {
+                System.out.println("Logger.aroundPringLog...After");
+            }
+        }
+    }
+    ```
+
     
 
 
