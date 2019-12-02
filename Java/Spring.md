@@ -1079,7 +1079,28 @@ Account{id=3, name='ccc', money=2345.0}
 
 ## 基于注解的配置
 
-*   
+*   ./src/main/resources/Beans.xml
+
+    ```xml
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:aop="http://www.springframework.org/schema/aop"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+    
+        <context:component-scan base-package="com.itheima"></context:component-scan>
+        <bean id="BeanFactory" class="com.itheima.factory.BeanFactory">
+            <property name="iAccountService" ref="accountService"></property></property>
+        </bean>
+    </beans>
+    ```
+
+    
 
 
 
