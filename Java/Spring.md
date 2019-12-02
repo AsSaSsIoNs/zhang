@@ -1022,7 +1022,9 @@ Account{id=3, name='ccc', money=2345.0}
             IAccountService iAccountService = (IAccountService) applicationContext.getBean("accountService");
             List<Account> accounts = iAccountService.selectAll();
         }/*
-        
+        Logger.beforePrintLog...
+    	Logger.afterReturningPrintLog...
+    	Logger.afterPrintLog...
         */
     ```
 
