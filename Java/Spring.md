@@ -983,13 +983,13 @@ Account{id=3, name='ccc', money=2345.0}
 在./src/main/resources/Beans.xml中添加下面的数据
 
 ```xml
-<aop:config><!--    </aop:config>-->
+<aop:config>
         <aop:aspect id="logAdvice" ref="logger">
-            <aop:before method="beforePrintLog" pointcut-ref="pointcut1"></aop:before>
-            <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut1"></aop:after-returning>
-            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut1"></aop:after-throwing>
-            <aop:after method="afterPrintLog" pointcut-ref="pointcut1"></aop:after>
-            <aop:pointcut id="pointcut1" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+            <aop:before method="beforePrintLog" pointcut-ref="pointcut1"></aop:before><!--表示前置通知-->
+            <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut1"></aop:after-returning><!--表示后置通知-->
+            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut1"></aop:after-throwing><!--表示异常通知-->
+            <aop:after method="afterPrintLog" pointcut-ref="pointcut1"></aop:after><!--表示最终通知-->
+            <aop:pointcut id="pointcut1" expression="execution(* com.itheima.service.impl.*.*(..))"/><!--使用通配符来shi-->
         </aop:aspect>
     </aop:config>
 ```
