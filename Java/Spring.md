@@ -1077,7 +1077,9 @@ Account{id=3, name='ccc', money=2345.0}
     java.lang.RuntimeException: java.lang.ArithmeticException: / by zero*/
     ```
 
-    
+## 基于注解的配置
+
+*   
 
 
 
