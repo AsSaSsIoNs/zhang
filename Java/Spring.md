@@ -1106,7 +1106,7 @@ Account{id=3, name='ccc', money=2345.0}
     </beans>
     ```
 
-    ./src/main/java/com/itheima/utils/Logger.java
+*   ./src/main/java/com/itheima/utils/Logger.java
 
     ```java
     @Component("logger")
