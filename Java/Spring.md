@@ -1025,10 +1025,11 @@ Account{id=3, name='ccc', money=2345.0}
         Logger.beforePrintLog...
     	Logger.afterReturningPrintLog...
     	Logger.afterPrintLog...
+    	由于并没有异常所以没有异常通知
         */
     ```
 
-    
+*   使用环绕通知，在Logger类添加如下内容
 
 
 
