@@ -1037,7 +1037,7 @@ Account{id=3, name='ccc', money=2345.0}
                 Object[] args = proceedingJoinPoint.getArgs();
                 System.out.println("Logger.aroundPringLog...Before");
                 proceedingJoinPoint.proceed(args);
-                int i = 1 / 0;
+                int i = 1 / 0;//异常
                 System.out.println("Logger.aroundPringLog...AfterReturning");
                 return returnValue;
             } catch (Throwable throwable) {
@@ -1071,9 +1071,10 @@ Account{id=3, name='ccc', money=2345.0}
             IAccountService iAccountService = (IAccountService) applicationContext.getBean("accountService");
             List<Account> accounts = iAccountService.selectAll();
         }/*
-        Logger.aroundPringLog...Before
-    	Logger.aroundPringLog...AfterReturning
-    	Logger.aroundPringLog...After*/
+    Logger.aroundPringLog...Before
+    Logger.aroundPringLog...AfterThrowing
+    Logger.aroundPringLog...After
+    java.lang.RuntimeException: java.lang.ArithmeticException: / by zero*/
     ```
 
     
