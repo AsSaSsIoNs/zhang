@@ -1134,23 +1134,6 @@ Account{id=3, name='ccc', money=2345.0}
         public void afterPrintLog(){/*最终通知*/
             System.out.println("Logger.afterPrintLog...");
         }
-    
-        public Object aroundPringLog(ProceedingJoinPoint proceedingJoinPoint){
-            Object returnValue = null;
-            try {
-                Object[] args = proceedingJoinPoint.getArgs();
-                System.out.println("Logger.aroundPringLog...Before");
-                proceedingJoinPoint.proceed(args);
-                int i = 1/0;
-                System.out.println("Logger.aroundPringLog...AfterReturning");
-                return returnValue;
-            } catch (Throwable throwable) {
-                System.out.println("Logger.aroundPringLog...AfterThrowing");
-                throw new RuntimeException(throwable);
-            } finally {
-                System.out.println("Logger.aroundPringLog...After");
-            }
-        }
     }
     ```
 
