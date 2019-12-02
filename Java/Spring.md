@@ -1037,6 +1037,7 @@ Account{id=3, name='ccc', money=2345.0}
                 Object[] args = proceedingJoinPoint.getArgs();
                 System.out.println("Logger.aroundPringLog...Before");
                 proceedingJoinPoint.proceed(args);
+                int i = 1 / 0;
                 System.out.println("Logger.aroundPringLog...AfterReturning");
                 return returnValue;
             } catch (Throwable throwable) {
