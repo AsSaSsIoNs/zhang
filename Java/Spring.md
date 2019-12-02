@@ -1094,9 +1094,8 @@ Account{id=3, name='ccc', money=2345.0}
             http://www.springframework.org/schema/context/spring-context.xsd">
     
         <context:component-scan base-package="com.itheima"></context:component-scan>
-        <bean id="BeanFactory" class="com.itheima.factory.BeanFactory">
-            <property name="iAccountService" ref="accountService"></property></property>
-        </bean>
+        <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    
     </beans>
     ```
 
