@@ -1031,5 +1031,49 @@ Account{id=3, name='ccc', money=2345.0}
 
 *   使用环绕通知，在Logger类添加如下内容
 
+    ```java
+    public Object aroundPringLog(ProceedingJoinPoint proceedingJoinPoint){
+            Object returnValue = null;
+            try {
+                Object[] args = proceedingJoinPoint.getArgs();
+                System.out.println("Logger.aroundPringLog...Before");
+                proceedingJoinPoint.proceed(args);
+                System.out.println("Logger.aroundPringLog...AfterReturning");
+                return returnValue;
+            } catch (Throwable throwable) {
+                System.out.println("Logger.aroundPringLog...AfterThrowing");
+                throw new RuntimeException(throwable);
+            } finally {
+                System.out.println("Logger.aroundPringLog...After");
+            }
+        }
+    ```
+
+*   改写Beans.xml
+
+    ```xml
+    <aop:config>
+            <aop:aspect id="logAdvice" ref="logger">
+    <!--            <aop:before method="beforePrintLog" pointcut-ref="pointcut1"></aop:before>-->
+    <!--            <aop:after-returning method="afterReturningPrintLog" pointcut-ref="pointcut1"></aop:after-returning>-->
+    <!--            <aop:after-throwing method="afterThrowingPrintLog" pointcut-ref="pointcut1"></aop:after-throwing>-->
+    <!--            <aop:after method="afterPrintLog" pointcut-ref="pointcut1"></aop:after>-->
+                <aop:around method="aroundPringLog" pointcut-ref="pointcut1"></aop:around>
+                <aop:pointcut id="pointcut1" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+            </aop:aspect>
+        </aop:config>
+    ```
+
+*   ```java
+        @Test
+        public void testAop(){
+            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("Beans.xml");
+            IAccountService iAccountService = (IAccountService) applicationContext.getBean("accountService");
+            List<Account> accounts = iAccountService.selectAll();
+        }
+    ```
+
+    
+
 
 
