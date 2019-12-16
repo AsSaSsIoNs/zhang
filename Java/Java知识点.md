@@ -1,5 +1,5 @@
 ```java
-        int a = 1;
+		int a = 1;
         int b = a;
         a = 2;
         System.out.println(a);//2
