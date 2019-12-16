@@ -118,3 +118,27 @@ class Child extends Father{
 }
 ```
 
+```java
+public class MyTest2 {
+    public static void main(String[] args) {
+        System.out.println(Father1.str1);
+        System.out.println("---------------");
+        System.out.println(Father2.str1);
+
+    }
+}
+
+class Father1{
+    public static String str1 = "java";
+    static {
+        System.out.println("Father1.static");
+    }
+}
+class Father2{
+    public static final String str1 = "java";
+    static {
+        System.out.println("Father2.static");
+    }
+}
+```
+
