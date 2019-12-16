@@ -78,6 +78,14 @@ boy=250，girl=250
 ```
 
 ```java
+/*主动使用类
+*创建这个类的实例
+*访问类或接口的静态变量，或对其赋值
+*反射
+*初始化这个类的子类
+*jvm启动时被标明为启动类的类
+*动态语言支持
+*/
 public class MyTest1 {
     public static void main(String[] args) {
 		/*
@@ -101,15 +109,12 @@ public class MyTest1 {
 		*/
     }
 }
-
-
 class Father{
     public static String str1 = "Father";
     static {
         System.out.println("Father.static");
     }
 }
-
 class Child extends Father{
     public static String str2 = "Child";
     static {
@@ -124,7 +129,20 @@ public class MyTest2 {
         System.out.println(Father1.str1);
         System.out.println("---------------");
         System.out.println(Father2.str1);
-
+        System.out.println("---------------");
+        System.out.println(Father3.str1);/*
+        Father1.static
+        java
+        ---------------
+        java
+        ---------------
+        Father3.static
+        92b10638-9189-4ca1-a47c-111332074990
+        可以看到，差别在于final关键字，如果str1被final所修饰，那么它直接会被放进MyTest2的常量池中，和Father2类没有任何关系，甚至在运行时我们删除了Father2的class文件，这个程序还是可以正常运行
+        常量在编译阶段就会存入调用这个常量的方法所在的类的常量池中
+        但是在为什么Father3的静态块也运行了呢
+        因为即使它的str1变量被final修饰，但是其值是调用随机数，要等到运行时才能确定值，而不是像上面的在编译期就确定好了。同样，删除这个类的class文件，运行时会抛出异常ClassNotFoundException
+        */
     }
 }
 
@@ -140,5 +158,10 @@ class Father2{
         System.out.println("Father2.static");
     }
 }
+class Father3{
+    public static final String str1 = UUID.randomUUID().toString();
+    static {
+        System.out.println("Father3.static");
+    }
+}
 ```
-
