@@ -25,8 +25,6 @@ t为"T",t1为t也为"T",修改t值后t1值却变了，为什么？
 */
 ```
 
-
-
 ```java
         String a;
         String b = null;
@@ -165,8 +163,6 @@ class Father3{
     }
 }
 ```
-
-
 
 ```java
 public class MyTest3 {
