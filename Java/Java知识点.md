@@ -165,3 +165,26 @@ class Father3{
     }
 }
 ```
+
+
+
+```java
+public class MyTest3 {
+    public static void main(String[] args) {
+        Test[] tests = new Test[3];
+        System.out.println(tests.getClass());
+        int[] ints = new int[2];
+        char[] chars = new char[2];
+        int[][] ints1 = new int[2][2];
+        System.out.println(ints.getClass());
+        System.out.println(chars.getClass());
+        System.out.println(ints1.getClass());
+    }
+}
+class Test{
+    static {
+        System.out.println("Test.static");
+    }
+}
+```
+
