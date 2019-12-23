@@ -1,504 +1,546 @@
-# Servlet
+# MyBatis
 
-*运行在服务器上的Java程序*
-
-------
-
-
+方便地进行数据库读写
 
 ## 快速体验
 
-- 安装好Tomcat与IDEA
+*   新建`Maven`白板工程
 
-- 新建JAVA Enterprise工程
-
-- 选择Web Application
-
-- 建好后的目录./src下建立一个ServletDemo.java
-
-    ```java
-    import javax.servlet.*;
-    import java.io.IOException;
-    
-    public class ServletDemo implements Servlet {
-        @Override
-        public void init(ServletConfig servletConfig) throws ServletException {
-        }
-    
-        @Override
-        public ServletConfig getServletConfig() {
-            return null;
-        }
-    
-        @Override
-        public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-            System.out.println("SSSSSSEEEEERVVVVVVLEEEET");
-        }
-    
-        @Override
-        public String getServletInfo() {
-            return null;
-        }
-    
-        @Override
-        public void destroy() {
-    
-        }
-    }
-    
-    ```
-
-    
-
-    也就是实现一个Servlet接口，但是仅实现service方法
-
-- 后来编辑./web/WEB-INF/web.xml
+*   编辑`pom.xml`文件，导入包
 
     ```xml
-    <?xml version="1.0" encoding="UTF-8"?>
-    <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-             version="3.1">
-        <servlet>
-            <servlet-name>demo1</servlet-name>
-            <servlet-class>ServletDemo</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>demo1</servlet-name>
-            <url-pattern>/demo1</url-pattern>
-        </servlet-mapping>
-    </web-app>
+    <dependencies>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.4.5</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.32</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
+        </dependencies>
     ```
 
-    注意servlet-class标签内容应与自定义的类名相同，url-pattern标签即指定了此页面的访问地址
+    主要是`mybatis` \ `mysqlconnector` \ `junit` \ `log4j`四个包
 
-- 点击运行Tomcat服务器，看到了这个页面![1571140384807](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571140384807.png)
-
-- 访问/demo1，发现什么内容都没有，这就表示成功。因为如果出错会出现404界面。同时控制台出现![1571140495503](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571140495503.png)
-
-    也就是上面ServletDemo.service方法里面定义的内容
-
-- 浏览器访问页面时确实触发了service方法，每一次访问都会调用一次
-
-- 这里可以修改项目在url中的定位，比如改成"/"，就表示localhost:8080即可定位至index.jsp,如果这样修改，那么我们自己定义的Servlet的路径就变成了localhost:8080/demo1<img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571140863404.png" style="zoom: 50%;" />
-
-## Servlet生命周期
-
-- 在./src下再建一个ServletDemo2.java，这个类中，实现了init、service和destroy方法
+*   `./src/main/java/com/zhang/domain/`建立`User`类
 
     ```java
-    import javax.servlet.*;
-    import java.io.IOException;
-    
-    public class ServletDemo2 implements Servlet {
-        @Override
-        public void init(ServletConfig servletConfig) throws ServletException {
-            System.out.println("执行init方法");
-        }
-    
-        @Override
-        public ServletConfig getServletConfig() {
-            return null;
-        }
-    
-        @Override
-        public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-            System.out.println("执行service方法");
-        }
-    
-        @Override
-        public String getServletInfo() {
-            return null;
-        }
-    
-        @Override
-        public void destroy() {
-            System.out.println("执行destroy方法");
-        }
+    package com.zhang.domain;
+    public class User {
+        private Integer id;
+        private String username;
+        private Date birthday;
+        private String sex;
+        private String address;
+        /*Getters Setters toString*/
     }
     ```
 
-- 编辑./web/WEB-INF/web.xml，做到标签之间的对应
+*   `./src/main/resources/`下建立`SqlMapConfig.xml`文件配置连接
 
     ```xml
-    <servlet>
-            <servlet-name>demo2</servlet-name>
-            <servlet-class>ServletDemo2</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>demo2</servlet-name>
-            <url-pattern>/demo2</url-pattern>
-        </servlet-mapping>
+    <configuration>
+        <environments default="mysql">
+            <environment id="mysql">
+                <transactionManager type="JDBC"></transactionManager>
+                <dataSource type="POOLED">
+                    <property name="driver" value="com.mysql.jdbc.Driver"/>
+                    <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+                    <property name="username" value="root"/>
+                    <property name="password" value=""/>
+                </dataSource>
+            </environment>
+        </environments>
+        <mappers>
+            <mapper resource="com/zhang/dao/UserDao.xml"/><!--指示查询配置文件的位置-->
+        </mappers>
+    </configuration>
     ```
 
-- 开启Tomcat服务器，并访问 http://localhost:8080/LearnServlet_war_exploded/demo2 ，期间多次刷新页面，当然页面肯定是什么都没有的，最后关闭服务器，控制台的内容如下![1571142133558](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571142133558.png)![1571142159675](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571142159675.png)
+*   `./src/main/resources/com/zhang/dao`下建立`UserDao.xml`,设置查询
 
-- init只在创建Servlet时执行一次，service会在每次访问时执行，destroy则会在服务器关闭、Servlet销毁时执行
+    ```xml
+    <mapper namespace="test"><!--设置命名空间-->
+        <select id="findAll" resultType="com.zhang.domain.User"><!--resultType设置查询后要返回的对象-->
+            select * from user
+        </select>
+        <select id="SelectById" parameterType="int" resultType="com.zhang.domain.User"><!--parameterType设置为查询参数的类型-->
+            select * from user where id=#{value}
+        </select>
+        <select id="SelectByUsername" parameterType="String" resultType="com.zhang.domain.User">
+            select * from user where username like '%${value}%'
+        </select>
+    </mapper>
+    ```
 
-### 控制Servlet的创建时机
-
-在的./web/WEB-INF/web.xml中找到刚才定义的Servlet标签，加入下面一行
-
-```xml
-        <load-on-startup>5</load-on-startup>
-```
-
-再运行Tomcat服务器，控制台输出是这样的![1571142728575](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571142728575.png)
-
-init方法在服务器初始化之前就执行了
-
-- 这个load-on-startup值为正数时init方法就在初始化之前执行
-
-## 使用注解特性
-
-配置一个Servlet需要实现接口以及设置xml文件，要注意名字必须对应，显得非常麻烦，注解特性就很好地解决了这个问题
-
-- 新建一个Java Enterprise项目，在创建Web Application时把create web.xml选项取消![1571143449629](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571143449629.png)
-
-    建立之后，./web目录下自然没有web.xml文件了
-
-- ./src/下新建TestAnnotation.java
+*   `./src/test/java/`建立单元测试类`TestMyBatis`
 
     ```java
-    import javax.servlet.*;
-    import javax.servlet.annotation.WebServlet;
-    import java.io.IOException;
-    @WebServlet(urlPatterns = "/demo")
-    public class TestAnnotation implements Servlet {
-        @Override
-        public void init(ServletConfig servletConfig) throws ServletException {
-            System.out.println("测试注解特性");
+    public class TestMyBatis {
+        @Test
+        public void testSelectAll() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.findAll");//命名空间+方法名
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
         }
-    
-        @Override
-        public ServletConfig getServletConfig() {
-            return null;
+    /*已经测试过*/
+        @Test
+        public void testSelectById() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.SelectById", 50);//命名空间+方法名，加上参数
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
         }
-    
-        @Override
-        public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-    
+        /*
+        User{id=50, username='张一', birthday=Mon Nov 04 00:00:00 CST 2019, sex='男', address='西安'}
+        */
+        @Test
+        public void testSelectByUsername() throws Exception{
+            String resource = "SqlMapConfig.xml";
+            InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+            SqlSessionFactory build = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = build.openSession();
+            List<Object> objects = sqlSession.selectList("test.SelectByUsername", "张");//经过测试，命名空间可以随意设置，目的是分开可能重名的方法
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+            sqlSession.close();
+            resourceAsStream.close();
         }
-    
-         @Override
-        public String getServletInfo() {
-            return null;
-        }
-    
-        @Override
-        public void destroy() {
-    
-        }
+        /*
+        User{id=50, username='张一', birthday=Mon Nov 04 00:00:00 CST 2019, sex='男', address='西安'}
+    User{id=51, username='张二', birthday=Mon Nov 04 00:00:00 CST 2019, sex='女', address='西安'}
+        */
     }
     ```
+    
+## 小问题
 
-    可以看到，在TestAnnotation类之前的@WebServlet(urlPatterns = "/demo")，正是设置了这个Servlet的url
+解决User类属性和数据库列名不一致的匹配问题
 
-- 运行Tomcat服务器，访问 http://localhost:8080/TestAnnotation_war_exploded/demo ，控制台如下显示![1571143894763](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1571143894763.png)
+*   如果User类的性别属性名改为gender，再运行测试结果是这样的![image-20191108213054150](image-20191108213054150.png)可以看到gender栏位为null
 
-- 成功地使用了注解特性
+*   为此有两种解决方法
 
-## GenericServlet和HttpServlet
+*   ```xml
+    <select id="findAll" resultType="com.zhang.domain.User">
+            select id, username, birthday, sex as gender, address  from user
+    </select><!--这种最为简便-->
+    ```
 
-上面实现的Servlet必须要实现五个方法，有时候只能空着，而这两中Servlet就解决了这些问题
+    ```xml
+    <resultMap id="resultMap" type="com.zhang.domain.User">
+            <result property="gender" column="sex"></result>
+        </resultMap>
+    <select id="findAll" resultMap="resultMap">
+            select * from user
+    </select><!--这种最为通用，通常用这种方法-->
+    ```
 
-- ./src/下新建两个类TestGenericServlet和TestHttpServlet
+*   方法一直接起别名，观察语句中的as，前面是sex，来自数据库，因为实体类要求是gender，所以封装为gender，简单快捷，效率也高，但是当要修改多行代码或栏位特别多时会很繁琐
+
+*   方法二采用了resultMap，给查询下来的结果做转换，但是需要注意select标签的resultType属性不能像以前一样设置，需要设置为resultMap属性，效率稍显繁琐，但是比较通用，而且在应对许多查询语句时代码量比上一种方法简便
+
+## 动态SQL
+
+*   考虑需求为根据不同的给出条件选择出对应项，比如给username或者id、gender等，只用写一条查询应该怎么写
+
+*   ```xml
+    <!--
+    ./src/main/resources/com/zhang/dao/UserDao.xml中追加
+    -->
+    <select id="SelectByRandom" resultMap="resultMap" parameterType="com.zhang.domain.User"><!--使用不同的参数来拼接，如果有名字就查询名字，有性别就查询性别-->
+            select * from user
+            <where>
+                <if test="username != null">
+                    and username = #{username}
+                </if>
+                <if test="gender != null">
+                    and sex = #{gender}
+                </if>
+            </where><!--where和if标签的使用，test属性表示条件-->
+        </select>
+    ```
 
     ```java
-    import javax.servlet.GenericServlet;
-    import javax.servlet.ServletException;
-    import javax.servlet.ServletRequest;
-    import javax.servlet.ServletResponse;
-    import javax.servlet.annotation.WebServlet;
-    import java.io.IOException;
+    public class QueryVo {
+        private User user;
+    private List<Integer> ids;
+        /*Getter Setter toString*/
+	```
     
-    @WebServlet(urlPatterns = "/TestGenericServlet")
-    public class TestGenericServlet extends GenericServlet {
-        @Override
-        public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-            System.out.println("TestGenericServlet.service()");
+    
+    ```java
+    /*./src/test/java/TestMybatis.java追加内容*/
+    @Test
+        public void selectByQueryVo(){
+            User user = new User();
+            user.setUsername("%张%");
+            QueryVo queryVo = new QueryVo();
+            queryVo.setUser(user);
+            List<Object> objects = sqlSession.selectList("test.SelectByQueryVo", queryVo);
+            for (Object each : objects) {
+                System.out.println(each);
+            }
         }
+    /*User{id=51, username='张四', birthday=Fri Nov 08 21:01:20 CST 2019, gender='null', address='西安'}
+    User{id=53, username='张四', birthday=Fri Nov 08 21:02:48 CST 2019, gender='null', address='西安'}*/
+    ```
+
+*   给出一个id的集合，查询出在这个集合中的项，使用动态SQL
+
+    ```xml
+    <!--
+    ./src/main/resources/com/zhang/dao/UserDao.xml中追加
+    -->
+    <select id="SelectUserInIds" resultMap="resultMap" parameterType="com.zhang.domain.QueryVo">
+            select * from user
+            <where>
+                <if test="ids != null and ids.size()>0">
+                    <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                        #{id}
+                    </foreach>
+                </if>
+            </where>
+        </select>
+    ```
+    ```java
+    /*./src/test/java/TestMybatis.java追加内容*/
+    @Test
+        public void testSelectUserInIds(){
+            QueryVo queryVo = new QueryVo();
+            List<Integer> ids = new ArrayList<Integer>();
+            ids.add(41);
+            ids.add(42);
+            queryVo.setIds(ids);
+            List<Object> objects = sqlSession.selectList("test.SelectUserInIds", queryVo);
+            for (Object each : objects) {
+                System.out.println(each);
+            }
+        }
+    /*User{id=41, username='老王', birthday=Tue Feb 27 17:47:08 CST 2018, gender='男', address='北京'}
+    User{id=42, username='小二王', birthday=Fri Mar 02 15:09:37 CST 2018, gender='女', address='北京金燕龙'}*/
+    ```
+
+## 一对多查询
+
+*   一对多查询时需要设置`xml`文件
+
+    ```xml
+    <resultMap id="testMultiTable" type="com.zhang.domain.User">
+            <id property="id" column="id"></id>
+            <result property="username" column="username"></result>
+            <result property="birthday" column="birthday"></result>
+            <result property="gender" column="sex"></result>
+            <result property="address" column="address"></result>
+            <collection property="accounts" ofType="com.zhang.domain.Account">
+                <id property="uid" column="uid"></id>
+                <result property="money" column="money"></result>
+                <result property="id" column="id"></result>
+            </collection><!--id标签表示主键，而collection标签表示-->
+        </resultMap>
+        <select id="SelectMultiTable" resultMap="testMultiTable">
+            select a.*, u.username, u.address from user u, account a where u.id=a.uid
+        </select>
+    ```
+
+*   新建`Account.java`
+
+    ```java
+    public class Account {
+        private Integer id;
+        private Integer uid;
+        private Integer money;
+        private User user;//附表中应该添加主表
+        /*Getters Setters toString*/
+    }
+    ```
+
+*   `SQL`语句原始运行结果![image-20191112210113677](image-20191112210113677.png)
+
+*   测试代码
+
+    ```java
+    @Test
+        public void testSelectMultiTable(){
+            List<User> users = sqlSession.selectList("test.SelectMultiTable");
+            for (User each : users) {
+                System.out.println(each);
+                System.out.println(each.getAccounts());
+            }
+        }
+    /*结果为
+    User{id=1, username='老王', birthday=null, gender='null', address='北京'}
+    [Account{id=1, uid=41, money=1000, user=null}]
+    User{id=2, username='传智播客', birthday=null, gender='null', address='北京金燕龙'}
+    [Account{id=2, uid=45, money=1000, user=null}]
+    User{id=3, username='老王', birthday=null, gender='null', address='北京'}
+    [Account{id=3, uid=41, money=2000, user=null}]
+    */
+    ```
+
+
+## 使用注解
+
+同`Servlet`一样，使用注解会更加方便
+
+*   顺便复习新建项目，首先建立空白`Maven`项目，在`pom.xml`文件中指定`mybatis`、`mysql-connector`、`junit`和`log4j`包的导入
+
+*   `./src/main/resources/`下新建`SqlMapConfig.xml`，配置连接`mysql`的各项参数
+
+    ```xml
+    <configuration>
+        <properties resource="jdbcConfig.properties"></properties><!--指定连接配置文件-->
+        <typeAliases><!--类型别名，用来直接使用类名而不是全限定类名-->
+            <package name="com.itheima.domain"></package>
+        </typeAliases>
+        <environments default="mysql">
+            <environment id="mysql">
+                <transactionManager type="JDBC"></transactionManager>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${jdbc.driver}"></property>
+                    <property name="url" value="${jdbc.url}"></property>
+                    <property name="username" value="${jdbc.username}"></property>
+                    <property name="password" value="${jdbc.password}"></property>
+                </dataSource><!--并没有直接设置而是使用了properties文件中规定的参数-->
+            </environment>
+        </environments>
+        <mappers><!--规定了使用dao开发的包-->
+            <package name="com.itheima.dao"></package>
+        </mappers>
+    </configuration>
+    ```
+
+*   同时，`jdbcConfig.properties`文件中应该存储以下内容
+
+    ```properties
+    jdbc.driver=com.mysql.jdbc.Driver
+    jdbc.url=jdbc:mysql://localhost:3306/test
+    jdbc.username=root
+    jdbc.password=
+    ```
+
+*   建立用户类`User`以及其接口`IUserDao`
+
+    ```java
+    public class User {
+        private Integer id;
+        private String username;
+        private String address;
+        private String sex;
+        private Date birthday;
+        /*Getters Setters toString*/
+    }
+    
+    public interface IUserDao {/*接口中使用了注解来明确此方法使用哪个sql*/
+        @Select(value = "Select * from user")
+        List<User> findAll();
+    
+        @Insert(value = "insert into user(username, address, sex, birthday) values(#{username}, #{address}, #{sex}, #{birthday})")
+        void insert(User user);
+    
+        @Update(value = "update user set username=#{username}, sex=#{sex}, birthday=#{birthday}, address=#{address} where id=#{id}")
+        void update(User user);
+    
+        @Delete(value = "delete from user where id=#{id}")
+        void deleteById(Integer id);
+    
+        @Select(value = "select * from user where id=#{id}")
+        User selectById(Integer id);
+    
+        @Select(value = "select * from user where username like #{username}")
+        List<User> selectByName(String username);
+    
+        @Select(value = "select count(*) from user")
+        int selectCount();
+    }
+    ```
+
+*   `./src/test/java/TestAnnotation.java`
+
+    ```java
+    	@Test
+        public void testSelectAll() throws Exception {
+            List<User> users = iUserDao.findAll();
+            for (User each : users) {
+                System.out.println(each);
+            }
+        }/*User{id=41, username='老王', address='北京', sex='男', birthday=Tue Feb 27 17:47:08 CST 2018}
+    User{id=42, username='小二王', address='北京金燕龙', sex='女', birthday=Fri Mar 02 15:09:37 CST 2018}
+    User{id=43, username='小二王', address='北京金燕龙', sex='女', birthday=Sun Mar 04 11:34:34 CST 2018}
+    User{id=45, username='传智播客', address='北京金燕龙', sex='男', birthday=Sun Mar 04 12:04:06 CST 2018}
+    User{id=46, username='老王', address='北京', sex='男', birthday=Wed Mar 07 17:37:26 CST 2018}
+    User{id=48, username='小马宝莉', address='北京修正', sex='女', birthday=Thu Mar 08 11:44:00 CST 2018}
+    User{id=51, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:01:20 CST 2019}
+    User{id=53, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:02:48 CST 2019}*/
+    
+        @Test
+        public void testInsert(){
+            User user = new User();
+            user.setSex("男");
+            user.setUsername("张1114");
+            user.setAddress("西安");
+            user.setBirthday(new Date());
+    
+            iUserDao.insert(user);
+            sqlSession.commit();
+        }/*执行之后再次selectAll，多出如下内容
+        User{id=55, username='张1114', address='西安', sex='男', birthday=Thu Nov 14 20:56:10 CST 2019}*/
+        @Test
+        public void testUpdate(){
+            User user = new User();
+            user.setId(55);
+            user.setSex("男");
+            user.setUsername("张1114-1");
+            user.setAddress("上海");
+            user.setBirthday(new Date());
+            iUserDao.update(user);
+            sqlSession.commit();
+        }/*id为55的记录发生变化
+        User{id=55, username='张1114-1', address='上海', sex='男', birthday=Thu Nov 14 20:57:29 CST 2019}*/
+        @Test
+        public void testDeleteById(){
+            iUserDao.deleteById(55);
+            sqlSession.commit();
+        }/*运行后id=55的记录消失*/
+        @Test
+        public void testSelectById(){
+            User user = iUserDao.selectById(53);
+            System.out.println(user);
+        }/*User{id=53, username='张四', address='西安', sex='男', birthday=Fri Nov 08 21:02:48 CST 2019}*/
+        @Test
+        public void testSelectByName(){
+            List<User> users = iUserDao.selectByName("%王%");//模糊查询
+            for(User each : users){
+                System.out.println(each);
+            }
+        }/*User{id=41, username='老王', address='北京', sex='男', birthday=Tue Feb 27 17:47:08 CST 2018}
+    User{id=42, username='小二王', address='北京金燕龙', sex='女', birthday=Fri Mar 02 15:09:37 CST 2018}
+    User{id=43, username='小二王', address='北京金燕龙', sex='女', birthday=Sun Mar 04 11:34:34 CST 2018}
+    User{id=46, username='老王', address='北京', sex='男', birthday=Wed Mar 07 17:37:26 CST 2018}*/
+        @Test
+        public void testSelectCount(){
+            int i = iUserDao.selectCount();
+            System.out.println(i);
+        }/*成功返回记录条数*/
+    ```
+
+## 注解开发一对多
+
+顺带解决类属性与数据库列名不一致的问题
+
+*   ```java
+    public class Account {
+        private Integer id;
+        private Integer uid;
+        private Double money;
+        private User user;//一个用户可以有多个账户，但是一个账户只能对应一个用户
+        /*Getters Setters toString*/
     }
     ```
 
     ```java
-    import javax.servlet.ServletException;
-    import javax.servlet.annotation.WebServlet;
-    import javax.servlet.http.HttpServlet;
-    import javax.servlet.http.HttpServletRequest;
-    import javax.servlet.http.HttpServletResponse;
-    import java.io.IOException;
-    
-    @WebServlet(urlPatterns = "/TestHttpServlet")
-    public class TestHttpServlet extends HttpServlet {
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            System.out.println("TestHttpServlet.doGet()");
+    public class User {
+    	private Integer userId;
+        private String userName;
+        private String userAddress;
+        private String userSex;
+        private Date userBirthday;
+        private List<Account> accounts;//一个用户可以有多个账户，所以用List
+        /*Getters Setters toString*/
         }
-    
-        @Override
-        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            System.out.println("TestHttpServlet.doPost()");
-        }
-    }
     ```
-
-- 可以看到不同于实现Servlet接口，两个类都继承了要测试的类
-
-- 测试TestHttpServlet.doPost方法，在./web/下建立一个TestHttpServlet_doPost.html
-
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>TestHttpServlet_doPost()</title>
-    </head>
-    <body>
-        <form action="/TestHttpServlet" method="post">
-            <input name="username">
-            <input type="submit" value="提交">
-        </form>
-    </body>
-    </html>
-    ```
-
-- 运行Tomcat服务器，访问 http://localhost:8080/TestGenericServlet 与 http://localhost:8080/TestHttpServlet ，控制台输出如下语句![1571190643534](J:\我的坚果云\Note\Java\1571190643534.png)
-
-- 访问 http://localhost:8080/TestHttpServlet_doPost.html ，填写任意内容并提交表单![1571190758579](J:\我的坚果云\Note\Java\1571190758579.png)控制台输出如下![1571190816021](J:\我的坚果云\Note\Java\1571190816021.png)
-
-- 即访问TestGenericServlet时触发service方法，访问TestHttpServlet时触发doGet方法，提交内容时触发doPost方法
-
-## 设置urlpattern
-
-观察urlpattern属性的源码就会发现，这个属性接受一个数组，所以下面测试一下一个Servlet能不能接受多个路径访问
-
-- ./src/下新建一个TestMultiUrlPatterns类
 
     ```java
-    @WebServlet(urlPatterns = {"/test1", "/test2", "/test3"})
-    public class TestMultiUrlPatterns extends HttpServlet {
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            System.out.println("TestMultiUrlPatterns.doGet");
+    public interface IAccountDao {
+        @Select(value="select * from account")
+        @Results(id = "AccountMap", value = {
+                @Result(id = true, column = "id", property = "id"),
+                @Result(column = "uid", property = "uid"),
+                @Result(column = "money", property = "money"),
+                @Result(property = "user", column = "uid", one = @One(select="com.itheima.dao.IUserDao.selectById", fetchType= FetchType.EAGER))
+        })
+    	public List<Account> selectAll();
+        /*Results注解用来解决列名问题，其中，
+        Result注解有一个必须声明id为true，用来表示真正的键值，column和property分别表示类属性名和数据库列名
+        One注解表示一对多的关系，我们这个select选择了account，每个account只能对应一个user，故使用了one来表示选取user中的一个，也就是one*/
+        /*这个是one注解中指定的全限定方法，使用这个就可以选择相应的user
+        public List<Account> selectAll();
+        @Select(value = "select * from account where uid=#{id}")
+        List<Account> selectAccountByUid(Integer id);
+        */
+    }
+    ```
+
+    ```java
+    @Select(value = "select * from user")
+        @Results(id = "UserMap", value = {
+                @Result(id = true, column = "id", property = "userId"),
+                @Result(column = "username", property = "userName"),
+                @Result(column = "address", property = "userAddress"),
+                @Result(column = "sex", property = "userSex"),
+                @Result(column = "birthday", property = "userBirthday"),
+                @Result(property = "accounts", column = "id", many = @Many(select = "com.itheima.dao.IAccountDao.selectAccountByUid", fetchType = FetchType.LAZY))/*同上面的一样，这个注解中是选择user，account为附属，而他们是多对一的关系，所以使用many注解*/
+        })
+        List<User> findAll();
+    /*指定的全限定方法
+        @Select(value = "select * from account where uid=#{id}")
+        List<Account> selectAccountByUid(Integer id);
+    */
+    ```
+
+    ```java
+    	@Test
+        public void testSelectAll(){
+            List<Account> accounts = iAccountDao.selectAll();
+            for(Account each : accounts){
+                System.out.println(each);
+                System.out.println("*********账户信息**********");
+                System.out.println(each.getUser());
+            }
+        }
+    ```
+
+    ![image-20191115130436907](image-20191115130436907.png)
+
+    ```java
+    @Test
+    public void testSelectAll() throws Exception {
+        List<User> users = iUserDao.findAll();
+        for (User each : users) {
+            System.out.println(each);
+            System.out.println(each.getAccounts());
+            System.out.println("************************************************");
+            System.out.println("************************************************");
         }
     }
     ```
 
-    观察到第一行中urlPatterns接收了一个数组
-
-- 启动服务器依次访问 http://localhost:8080/test1、http://localhost:8080/test2、http://localhost:8080/test3，控制台输出如下
-
-- ![1571191643648](J:\我的坚果云\Note\Java\1571191643648.png)
-
-- 也就是使用了三个url访问到了同一个Servlet
-
-    ### 使用通配符
-
-    - ./src/下新建一个TestWildcards类
-
-        ```java
-        @WebServlet(urlPatterns = "/*")
-        public class TestWildcards extends HttpServlet {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                System.out.println("TestWildcards.doGet");
-            }
-        }
-        ```
-
-    - 启动服务器，访问（localhost:8080/+任意内容）若干次，控制台输出下面内容
-
-    - ![1571191949037](J:\我的坚果云\Note\Java\1571191949037.png)
-
-        
-
-## Http协议
-
-- 运行服务器，访问 http://localhost:8080/TestHttpServlet_doPost.html ，按f12进入控制台
-
-- ![1571192908757](J:\我的坚果云\Note\Java\1571192908757.png)
-
-- 可以看到请求网址，请求方法，状态码等信息
-
-- 填写内容并提交，再进入控制台
-
-- ![1571192966030](J:\我的坚果云\Note\Java\1571192966030.png)
-
-- 发现如下信息，正是在html页面中定义的参数
-
-    ### doGet与doPost
-
-    - 编辑./web/TestHttpServlet_doPost.html文件，将form标签的method属性改为“get”
-
-    - 再次提交表单，发现url变为了这样
-
-    - ![1571193177112](J:\我的坚果云\Note\Java\1571193177112.png)
-
-        *doGet方法会把请求参数放到url中，而doPost却不会*
-
-# Request和Response
-
-输出HttpServletRequest对象的信息，System输出对象信息
-
-org.apache.catalina.connector.RequestFacade@6e70f6c0
-
-这个类实现了HttpServletRequest接口
-
-## Request获取请求头
-
-### 测试request的方法输出
-
-- 实现TestRequest类
-
-- ```java
-    System.out.println("getMethod()" + "\t\t" + req.getMethod());
-            System.out.println("getContextPath()" + "\t\t" + req.getContextPath());
-            System.out.println("getServletPath()" + "\t\t" + req.getServletPath());
-            System.out.println("getQueryString()" + "\t\t" + req.getQueryString());
-            System.out.println("getRequestURI()" + "\t\t" + req.getRequestURI());
-            System.out.println("getRequestURL()" + "\t\t" + req.getRequestURL());
-            System.out.println("getProtocol()" + "\t\t" + req.getProtocol());
-            System.out.println("getRemoteAddr()"+ "\t\t" + req.getRemoteAddr());
-    ```
-
-- 访问 http://localhost:8080/TestRequest?name=zhang&age=22 ，这个url中附带了请求参数
-
-- ```
-    getMethod()		GET
-    getContextPath()		
-    getServletPath()		/TestRequest
-    getQueryString()		name=zhang&age=22
-    getRequestURI()		/TestRequest
-    getRequestURL()		http://localhost:8080/TestRequest
-    getProtocol()		HTTP/1.1
-    getRemoteAddr()		0:0:0:0:0:0:0:1
-    ```
-
-    可以得到相应的信息，比如协议名、请求方法、请求参数、Servlet路径等等
-
-### 测试getHeaderNames
-
-- 实现TestRequest2类
-
-- ```java
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            Enumeration<String> headers = req.getHeaderNames();
-            while (headers.hasMoreElements()){
-                String name = headers.nextElement();
-                String value = req.getHeader(name);
-                System.out.println(name + "::::::" + value);
-            }
-        }
-    ```
-
-- <img src="J:\我的坚果云\Note\Java\1571212212502.png" alt="1571212212502" style="zoom:50%;" />
-
-- 从输出看返回了所有的请求名以及对应值
-
-### 小demo
-
-- 判断使用的浏览器是不是Chrome，实现TestRequest3类
-
-- ```java
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            String agent = req.getHeader("user-agent");
-            if(agent.contains("Chrome")){
-                System.out.println("使用Chrome访问了");
-            }else{
-                System.out.println("不是Chrome");
-            }
-        }
-    ```
-
-- 启动后分别使用Chrome和IE访问 http://localhost:8080/TestRequest3 ，控制台输出如下
-
-- ![1571212681596](J:\我的坚果云\Note\Java\1571212681596.png)
-
-- 当然还可以判断Firefox还有Safari等浏览器，懒得下就这样吧
-
-## Request获取请求体
-
-编写TestRequest4类测试
-
-- ```java
-    @WebServlet(urlPatterns = "/TestRequest4")
-    public class TestRequest4 extends HttpServlet {
-        @Override
-        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            BufferedReader br = req.getReader();
-            String line = null;
-            while ((line = br.readLine()) != null){
-                System.out.println(line);
-            }
-        }
-    }
-    ```
-
-- ./web/下新建TestRequest4.html文件
-
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>TestRequest4</title>
-    </head>
-    <body>
-        <form action="/TestRequest4" method="post">
-            <input type="text" placeholder="输入框" name="DATADATA">
-            <input type="submit" value="提交">
-        </form>
-    </body>
-    </html>
-    ```
-
-- 访问 http://localhost:8080/TestRequest4.html ,填写数据并点击提交按钮，控制台输出如下![1571214250326](J:\我的坚果云\Note\Java\1571214250326.png)
-
-    ### 接受请求参数
-
-    - 新建TestRequest5类与TestRequest5.html用来测试
-
-    - ```java
-        public class TestRequest5 extends HttpServlet {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                Map<String, String[]> parameters = req.getParameterMap();
-                Set<String> keyset = parameters.keySet();
-                for (String key : keyset) {
-                    String[] values = parameters.get(key);
-                    System.out.println(key);
-                    for (String value : values) {
-                        System.out.println(value);
-                    }
-                }
-            }
-            @Override
-            protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                super.doGet(req, resp);
-            }
-        }
-        ```
-
-    - ```html
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>TestRequest5</title>
-        </head>
-        <body>
-            <form action="/TestRequest5" method="get">
-                <input type="text" name="Data1"><br>
-                <input type="text" name="Data1"><br>
-                <input type="submit" value="提交">
-            </form>
-        </body>
-        </html>
-        ```
-
-    - 访问 http://localhost:8080/TestRequest5.html 填写表单提交，控制台输出如下![1571215918203](J:\我的坚果云\Note\Java\1571215918203.png)
-
-    - 使用了Map来承接所有的参数，参数的值可以是一个数组
+    ![image-20191115130506202](image-20191115130506202.png)
 

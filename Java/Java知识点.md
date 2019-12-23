@@ -1,141 +1,4 @@
-# 19-20秋第15周1209-1215
-
-# 本周工作
-
-*   编程题
-*   学习JVM相关的知识
-*   SpringBoot项目好像有点做不下去，搞了本书准备系统学习一下
-*   复习期末考试
-
-## 学习记录
-
-| 时长/小时 | 项目 | 理论 | 编程题 | 合计 |
-| :-------: | :--: | :--: | :----: | :--: |
-|   第1天   |  6   |  0   |   1    |  7   |
-|   第2天   |  3   |  1   |   0    |  4   |
-|   第3天   |  5   |  1   |   1    |  7   |
-|   第4天   |  2   |  2   |   2    |  6   |
-|   第5天   |  1   |  3   |   1    |  5   |
-|   第6天   |  0   |  2   |   1    |  3   |
-|   第7天   |  0   |  2   |   0    |  2   |
-|   合计    |  17  |  11  |   6    |  34  |
-
-​	后半截感觉不是太好，荒废了🤦‍
-
-## 编程题
-
-### 682. 棒球比赛
-
-```python
-class Solution:    
-    def calPoints(self, ops: List[str]) -> int:
-        stack = []
-        result = 0
-        for each in ops:
-            if each == '+':
-                temp = stack[-1] + stack[-2]
-                continue
-            elif each == 'C':
-                result = result - stack.pop()
-            elif each == 'D':
-                temp = 2 * stack[-1]
-            else:
-                temp = int(each)
-            stack.append(temp)
-            
-            result = result + temp
-        return result
-```
-
-### 1047. 删除字符串中的所有相邻重复项
-
-```python
-class Solution:
-    def removeDuplicates(self, S: str) -> str:
-        stack = []
-        for each in S:
-            if stack and each == stack[-1]:
-                stack.pop()
-            else:
-                stack.append(each)
-        return ''.join(stack)
-```
-
-### 844. 比较含退格的字符串
-
-```python
-class Solution:
-    def backspaceCompare(self, S: str, T: str) -> bool:
-        sTemp = []
-        tTemp = []
-        for each in S:
-            if each != '#':
-                sTemp.append(each)
-            else:
-                if len(sTemp) != 0:
-                    sTemp.pop()
-        for each in T:
-            if each != '#':
-                tTemp.append(each)
-            else:
-                if len(tTemp) != 0:
-                    tTemp.pop()
-        print(sTemp)
-        print(tTemp)
-        return sTemp == tTemp
-```
-
-### 1046. 最后一块石头的重量
-
-```python
-class Solution:
-    def lastStoneWeight(self, stones: List[int]) -> int:
-        stones.sort()
-        while(len(stones) > 1):
-            if stones[-1] != stones[-2]:
-                stones[-1] = stones[-1] - stones[-2]
-                stones.pop(-2)
-            else:
-                stones.pop()
-                stones.pop()
-            stones.sort()
-        if len(stones) == 1:
-            return stones[0]
-        else:
-            return 0
-```
-
-### 118. 杨辉三角
-
-```python
-class Solution:
-    def generate(self, numRows: int) -> List[List[int]]:
-        row = numRows
-        result = [[]]
-        for i in range(1, row + 1):
-            result.append([1] * i)
-        result.pop(0)
-        for i in range(2, row):
-            for j in range(1, len(result[i]) - 1):
-                result[i][j] = result[i-1][j-1] + result[i-1][j]
-        return result
-```
-
-### 1266. 访问所有点的最小时间
-
-```python
-class Solution:
-    def minTimeToVisitAllPoints(self, points: List[List[int]]) -> int:
-        result = 0
-        x0, y0 = points[0]
-        for i in range(1, len(points)):
-            x1, y1 = points[i]
-            result = result + max(abs(x1 - x0), abs(y1 - y0))
-            x0, y0 = points[i]
-        return result
-```
-
-## Java基础知识
+Java知识点
 
 ```java
 		int a = 1;
@@ -303,9 +166,23 @@ class Father3{
 }
 ```
 
-# 下周工作
-
-*   复习期末考试
-*   编程题
-*   基础知识和SpringBoot项目书看点
+```java
+public class MyTest3 {
+    public static void main(String[] args) {
+        Test[] tests = new Test[3];
+        System.out.println(tests.getClass());
+        int[] ints = new int[2];
+        char[] chars = new char[2];
+        int[][] ints1 = new int[2][2];
+        System.out.println(ints.getClass());
+        System.out.println(chars.getClass());
+        System.out.println(ints1.getClass());
+    }
+}
+class Test{
+    static {
+        System.out.println("Test.static");
+    }
+}
+```
 
